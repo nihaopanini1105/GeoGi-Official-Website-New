@@ -1,0 +1,12 @@
+{
+  "based_on": "GeoGi_Official_Website_v17_Final_Research",
+  "services_simplified_to_cards": true,
+  "five_service_names_preserved": true,
+  "chinese_primary_home": true,
+  "chinese_primary_research": true,
+  "article_advanced_figures": true,
+  "article_no_basic_v17_flow": true,
+  "mobile_visual_adaptation": true,
+  "geogi_authority_visual_present": true,
+  "all_primary_pages_exist": true
+}
