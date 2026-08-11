@@ -1,0 +1,20 @@
+{
+  "updated": "2026-08-12",
+  "categories": ["基础研究", "AI搜索生态", "GEO方法论", "行业研究"],
+  "items": [
+    {
+      "title": "GeoGi：AI 可见度（AI Visibility）与 GEO 企业增长平台全面解析",
+      "category": "基础研究",
+      "status": "published",
+      "url": "/research/what-is-geogi/",
+      "summary": "系统解析 GeoGi、AI 可见度与 GEO 企业增长平台。"
+    },
+    {
+      "title": "什么是 GEO？从 SEO 到 AI 推荐时代，品牌如何建立新的增长入口",
+      "category": "GEO方法论",
+      "status": "published",
+      "url": "/insights/what-is-geo-ai-search-era/",
+      "summary": "解释 GEO 定义、AI 搜索变化与企业实施路径。"
+    }
+  ]
+}
