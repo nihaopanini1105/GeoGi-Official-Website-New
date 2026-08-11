@@ -1,0 +1,25 @@
+{
+  "channels": [
+    {
+      "id": "wecom",
+      "name": "企业微信",
+      "purpose": "商务咨询 / 项目沟通",
+      "enabled": false,
+      "asset": "assets/contact/wecom-qr.png"
+    },
+    {
+      "id": "wechat_official",
+      "name": "微信公众号",
+      "purpose": "GeoGi 研究与方法内容",
+      "enabled": false,
+      "asset": "assets/contact/wechat-official-qr.png"
+    },
+    {
+      "id": "xiaohongshu",
+      "name": "小红书",
+      "purpose": "实验、案例与行业观察",
+      "enabled": false,
+      "asset": "assets/contact/xiaohongshu-qr.png"
+    }
+  ]
+}
