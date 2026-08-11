@@ -1,113 +1,438 @@
 # GeoGi Official Website Development Guidelines
 
-本规范用于后续继续开发 `GeoGi-Official-Website-New`。除非业务方明确更新品牌或内容策略，所有页面、组件、文案、图片和研究中心文章，都必须以原项目中已经存在的设计规范、内容规范和品牌 VI 为唯一基准。
+本规范是 `GeoGi-Official-Website-New` 的长期开发与发布规则。除非 GeoGi 负责人明确批准更新品牌、产品边界或内容策略，所有页面、组件、文案、图片、研究中心文章、自动化脚本和发布流程都必须遵守本文件与 `docs/WEBSITE_V9_IMPLEMENTATION_PLAN.md`。
 
-> 当前工作区尚未成功同步远端仓库。本文件先建立协作规则和交付标准；仓库代码可用后，应补充真实目录路径、组件名称、文章数据结构和构建命令。
+## 1. Repository Role And Source Of Truth
 
-## 1. Source Of Truth
+GeoGi 官网负责公开展示，不自行定义产品事实。
 
-- 项目代码：`nihaopanini1105/GeoGi-Official-Website-New`
-- 设计基准：以项目现有页面、组件、布局、间距、字体、颜色、动效和响应式规则为准。
-- 品牌基准：以项目内现有 logo、品牌色、辅助色、图形语言、图标风格、图片风格为准。
-- 内容基准：以项目现有中文/英文表达方式、栏目命名、标题语气、CTA 语气和研究中心文章结构为准。
-- 资产基准：优先复用项目内已有图片、图标、品牌素材和样式变量，不引入与 VI 不一致的新视觉体系。
+权威关系：
 
-如果设计稿、口头需求和现有项目冲突，先标记冲突点，不直接覆盖现有体系。
+- `nihaopanini1105/GeoGi-OS`：产品能力、方法、证据、版本、工作流、QA、Report 与交付边界的权威来源。
+- `nihaopanini1105/GeoGi-Content-OS`：研究选题、内容生产、平台路由、视觉与内容审核的权威来源。
+- `nihaopanini1105/GeoGi-MiniProgram`：当前客户入口、用户侧交互与已批准联系方式的参考来源。
+- `nihaopanini1105/GeoGi-Official-Website-New`：公开官网与 Research Center 的开发主仓。
+- Gitee `sanshen-tech/geogi_order_web`：中国团队发布 / 部署仓，不作为独立产品事实源。
 
-## 2. Development Principles
+任何官网内容不得自行发明：
 
-- 保持一致：新增页面和模块应继承已有布局、组件、颜色、字体层级和交互方式。
-- 小步更新：研究中心文章更新应尽量只改内容数据、文章文件、必要图片和索引，不顺手重构无关页面。
-- 内容优先：文章页面应先保证标题、摘要、正文层级、来源、日期、作者、标签和 SEO 信息完整，再考虑装饰性细节。
-- 可维护：重复出现的展示规则应抽到已有组件或现有数据结构中，不为单篇文章写一次性页面。
-- 可验证：每次更新后至少完成本地预览、关键页面检查、移动端检查和构建检查。
+- 正式综合评分权重或平台权重；
+- 未经批准的客户等级；
+- AI 平台内部算法、候选池或排名机制；
+- 保证推荐、保证排名、保证效果或固定生效周期；
+- 尚未实现的 SaaS、API、Reader、自动平台执行、数据库、CMS 或其他生产 runtime 能力。
 
-## 3. Project Intake Checklist
+## 2. Canonical Branch And Remote Model
 
-首次拿到或重新同步项目后，先补齐以下信息：
+正常开发只以 GitHub 为开发主仓。
 
-- 技术栈：框架、语言、包管理器、样式方案、内容来源。
-- 启动命令：安装、开发、本地预览、构建、格式化、检查命令。
-- 目录结构：页面目录、组件目录、样式目录、静态资源目录、研究中心内容目录。
-- 内容模型：研究中心文章字段、路由规则、封面图规则、分类和标签规则。
-- 品牌资产：logo 文件、色彩变量、字体配置、图标库、图片使用规则。
-- 发布流程：分支、提交、预览、上线方式。
+本地标准 remote：
 
-## 4. Visual And VI Rules
+```text
+origin -> git@github.com:nihaopanini1105/GeoGi-Official-Website-New.git
+gitee  -> git@gitee.com:sanshen-tech/geogi_order_web.git
+```
 
-- 不新增独立视觉风格。新增 UI 必须看起来像原网站自然长出来的一部分。
-- 颜色优先使用项目已有变量、CSS token、Tailwind 配置或全局样式中的定义。
-- 字体、字号、行高、字重、标题层级应复用已有页面规律。
-- 按钮、链接、卡片、标签、导航、分页、面包屑、文章目录等元素应复用现有组件。
-- 图片应匹配品牌调性和栏目主题，不使用低清、拉伸、过度裁切、风格突兀或版权不明的图片。
-- 移动端不允许出现文字溢出、按钮挤压、图片变形、导航遮挡正文等问题。
+当前 Gitee 生产分支为：
 
-## 5. Content Rules
+```text
+gitee/master
+```
 
-- 中文内容应保持专业、清晰、克制，避免营销腔过重。
-- 英文术语首次出现时，可保留英文并提供中文解释；后文保持统一叫法。
-- 标题应具体，不写空泛标题。
-- 摘要应说明文章核心问题、方法或结论，不重复标题。
-- 正文层级最多保持清晰的二到三级标题，避免碎片化堆叠。
-- 涉及研究结论、数据、模型、机构、论文、政策或日期时，应注明来源或上下文。
-- 不确定信息不得写成事实；需要确认的地方标记为待确认。
-- 同一栏目内作者、日期、分类、标签、封面图、SEO 描述等元信息格式必须一致。
+GitHub 分支模型：
 
-## 6. Research Center Article Standard
+```text
+feature/* or feat/*
+        ↓
+GitHub Draft PR
+        ↓
+QA / Review
+        ↓
+GitHub main
+```
 
-后续主要更新研究中心文章时，每篇文章应包含：
+禁止直接在 GitHub `main` 上进行日常开发。
 
-- 标题：清晰表达研究主题。
-- 摘要：80-160 字，说明研究问题和读者收益。
-- 发布日期：使用 `YYYY-MM-DD`。
-- 作者或来源：与项目现有格式保持一致。
-- 分类：沿用现有研究中心分类，不随意新增。
-- 标签：3-6 个，使用项目已有标签风格。
-- 封面图：尺寸、比例、命名和压缩方式沿用现有文章。
-- 正文：包含背景、方法/观察、分析、结论或启示。
-- SEO：标题、描述、Open Graph 信息与文章内容一致。
+Gitee 目标发布模型：
 
-文章更新流程：
+```text
+GitHub main
+        ↓
+Gitee release/github-main
+        ↓
+团队验收
+        ↓
+Gitee master
+        ↓
+生产
+```
 
-1. 先查看已有研究中心文章，确认字段、文件命名和路由规则。
-2. 新增或编辑文章内容。
-3. 更新文章列表、推荐位、分类页或索引数据。
-4. 检查文章详情页、列表页、首页入口和移动端显示。
-5. 运行构建或项目约定的检查命令。
+在自动同步机制正式建立前，不允许为了“保持一致”直接覆盖 Gitee `master`。
 
-## 7. File And Naming Rules
+## 3. Current v9 Development Entry
 
-- 文件命名沿用项目现有风格，例如 kebab-case、camelCase 或中文标题映射规则。
-- 图片文件名应可读，包含文章主题或发布日期，不使用 `image1`、`new-final-final` 等临时名。
-- 不把大段正文硬编码进组件，除非项目本身就是这样组织内容。
-- 不把临时素材、草稿、截图、压缩包提交进正式目录。
-- 不修改锁文件、格式化配置、构建配置，除非任务确实需要。
+v9 正式开发入口：
 
-## 8. Quality Checklist Before Delivery
+```text
+branch: feat/website-v9-launch-clean
+PR: #1 GeoGi Website v9 Launch Candidate
+```
 
-- 页面在桌面和移动端都可读、无遮挡、无明显错位。
-- 研究中心列表、详情页、分类/标签入口正常。
-- 新文章标题、摘要、日期、作者、分类、标签和封面图完整。
-- 链接可点击，内部路径正确，外链必要时新窗口打开。
-- 图片加载正常，大小合适，alt 文案清楚。
-- SEO 信息与文章内容匹配。
-- 本地构建或检查通过；若未能运行，需要说明原因。
-- 变更范围集中，没有混入无关重构。
+该 PR 在所有 P0 上线阻塞项解决前必须保持 Draft。
 
-## 9. Collaboration Workflow
+历史保护分支、旧 ZIP 恢复记录和 Gitee 生产历史只用于追溯，不作为新的开发起点。
 
-- 每次开始开发前，先确认本次任务属于：文章更新、页面调整、视觉修正、功能开发、发布准备。
-- 对研究中心文章，优先要求或整理文章原稿、图片、作者、日期、分类、标签、来源链接。
-- 开发中如发现现有内容规范不一致，先按最常见模式处理，并记录差异。
-- 完成后交付应说明：更新了什么、影响哪些页面、如何验证、是否还有待确认项。
+## 4. Development Principles
 
-## 10. Pending Project-Specific Additions
+### 4.1 保持品牌一致
 
-仓库成功同步后，请补充：
+新增页面和模块必须继承现有 GeoGi 视觉语言：
 
-- 实际技术栈和命令。
-- 研究中心文章真实目录。
-- 文章 frontmatter 或数据字段模板。
-- 现有分类和标签清单。
-- 品牌色、字体、组件路径和图片尺寸规范。
-- 部署或发布步骤。
+- 正式 GeoGi Orbit Answer Logo 原始资产；
+- 已确认的蓝色 / 深蓝 / 青色辅助视觉体系；
+- 现有圆角、卡片、留白、字体层级和研究出版物风格；
+- 中文主叙事，英文只用于必要术语或方法论名称。
+
+禁止：
+
+- AI 重绘 Logo；
+- 近似 Logo、旧 Logo、错误字标；
+- 为单篇文章另起一套视觉系统；
+- 为解决局部问题不断叠加新的 `!important` 补丁。
+
+### 4.2 小步、可审计更新
+
+每次提交只完成一个清晰目的，例如：
+
+- front-end foundation；
+- homepage product truth；
+- Research Center data model；
+- research publishing QA；
+- contact assets；
+- release automation；
+- launch QA。
+
+不要把无关重构、文案修改和发布配置混在一个提交中。
+
+### 4.3 事实优先
+
+官网产品文案先与 `GeoGi-OS` 当前正式能力核对，再考虑营销表达。
+
+对外表达优先描述：
+
+- 真实用户问题；
+- 多平台受控观察；
+- 原始回答与来源；
+- 事实 / 引用核验；
+- 品牌与竞品诊断；
+- 优化方案与执行验收；
+- 同口径复测；
+- 可比性、限制条件与归因支持；
+- 报告 QA 与交付。
+
+避免将内部 Schema、Registry、对象名或工作流实现细节直接暴露给客户。
+
+## 5. China-Market Service Boundary
+
+GeoGi 当前 GEO 服务范围以中国市场为核心。
+
+官网必须清楚区分：
+
+- **服务范围**：中国市场品牌 GEO 诊断、优化、复测与持续增长；
+- **研究引用范围**：可引用全球公开论文、官方文档和国际平台资料用于概念研究。
+
+国际研究来源不等于 GeoGi 当前提供海外平台检测服务。
+
+国内 AI 平台示例可以包含豆包、腾讯元宝、通义千问、DeepSeek、Kimi，但具体项目正式覆盖范围必须以当前验证状态和项目方案为准，不得默认宣称所有项目均完成五平台正式可比测试。
+
+## 6. Scoring And Outcome Language
+
+在 GeoGi-OS 尚未批准正式综合权重前，官网统一使用：
+
+- 诊断维度；
+- 观察指标；
+- 平台表现；
+- 竞品对比；
+- 风险；
+- 机会；
+- 变化评估。
+
+禁止将未经正式批准的轻量展示分数描述为 GeoGi 正式综合总分。
+
+复测统一使用“观察 / 比较 / 评估”语言。
+
+推荐表达：
+
+> 按同口径复测，比较前后变化，并评估可比性、限制条件与归因支持。
+
+禁止表达：
+
+> 复测证明本次优化一定有效。
+
+## 7. Research Center Standard
+
+### 7.1 Canonical route
+
+Research Center canonical 根路径固定为：
+
+```text
+/insights/
+```
+
+新文章目标路由：
+
+```text
+/insights/<slug>/
+```
+
+历史 `/research/` URL 只用于已经公开 URL 的兼容重定向，不再作为新内容的第二套 canonical 体系。
+
+### 7.2 Fixed categories
+
+一级分类固定为：
+
+1. GEO 基础研究
+2. AI 平台研究
+3. GeoGi 方法论
+4. 行业研究
+5. 年度研究报告
+
+其他主题如品牌 AI 可见度、Citation、竞品、案例、事实库等使用 tags / topics 表达。
+
+### 7.3 Target content source
+
+v9 Research Center 逐步迁移到：
+
+```text
+content/
+  research/
+    <slug>/
+      article.md
+      metadata.json
+      assets/
+```
+
+文章 HTML 是构建产物，不作为长期手工维护的唯一母稿。
+
+### 7.4 Required metadata
+
+每篇文章至少包含：
+
+- slug；
+- title；
+- description；
+- published_at；
+- updated_at；
+- author；
+- category；
+- tags；
+- status；
+- canonical_path；
+- sources；
+- FAQ（如有）；
+- featured 状态。
+
+### 7.5 Research article structure
+
+文章建议保持：
+
+- 研究摘要；
+- 核心结论；
+- 研究正文；
+- 数据 / 模型 / 案例；
+- GeoGi 原创框架；
+- GeoGi Research Insight / Perspective；
+- FAQ；
+- References；
+- Related Articles；
+- CTA。
+
+事实、外部研究结论和 GeoGi 自有观点必须可区分。
+
+## 8. Research Publishing Workflow
+
+网站研究内容不直接从公众号 HTML 复制上线。
+
+目标流程：
+
+```text
+Trend Research
+→ Website Research Draft
+→ Content Review
+→ Human Approval
+→ Website Research Package
+→ Website Build / QA
+→ GitHub PR
+→ Preview / QA
+→ Merge
+→ Gitee release candidate
+→ Human production approval
+```
+
+未经人工批准的研究内容不得自动进入生产。
+
+Research build 后续应自动生成 / 更新：
+
+- 文章详情页；
+- `/insights/index.html`；
+- 分类页；
+- 首页最新 3 篇；
+- Related Articles；
+- `sitemap.xml`；
+- `feed.xml`；
+- 可选 `research-feed.json`。
+
+## 9. Contact And Social Rules
+
+联系方式必须使用独立正式资产，不允许继续把 QR 作为 Base64 写死在 HTML。
+
+目标结构：
+
+```text
+assets/contact/
+  wecom-qr.png
+  wechat-official-qr.png
+  xiaohongshu-qr.png
+
+data/
+  contact.json
+```
+
+渠道定位：
+
+- 企业微信：商务咨询 / 项目沟通；
+- 微信公众号：GeoGi 研究与方法内容；
+- 小红书：实验、案例与行业观察。
+
+只允许使用已批准官方二维码与账号信息。没有已确认资产时隐藏该渠道，不制作假二维码或占位二维码进入生产。
+
+## 10. Front-End Rules
+
+v9 目标是保留现有视觉，降低页面内联样式耦合。
+
+目标目录：
+
+```text
+assets/
+  css/
+    tokens.css
+    base.css
+    components.css
+    home.css
+    research.css
+  js/
+    navigation.js
+    research.js
+```
+
+要求：
+
+- 公共 token 和组件只定义一次；
+- 不再累积 v4/v5/v6/v10/v17/v18 相互覆盖的临时 CSS；
+- 所有新导航需支持桌面与移动端；
+- 不允许移动端直接隐藏全部主导航而没有替代入口；
+- 320px 宽度不得出现横向页面溢出；
+- 表格、二维码、长标题和 CTA 必须有移动端处理；
+- 键盘焦点和基本 aria 属性不得缺失。
+
+## 11. SEO And AI-Readable Requirements
+
+每个生产页面必须检查：
+
+- 唯一 title；
+- description；
+- canonical；
+- robots；
+- Open Graph；
+- heading hierarchy；
+- internal links；
+- image alt；
+- sitemap inclusion。
+
+研究文章额外检查：
+
+- Article structured data 与可见内容一致；
+- FAQ schema 只在页面真实显示相同 FAQ 时存在；
+- 日期与 metadata 一致；
+- sources / references 可追溯；
+- Organization logo 使用正式文件 URL，不使用 Base64 data URI。
+
+## 12. Local Development Safety
+
+正式本地工作目录只认一个：
+
+```text
+/Users/dashaoye/Documents/GeoGi_Official_Website/GeoGi-Official-Website-New
+```
+
+开发前先执行：
+
+```sh
+git status
+git branch --show-current
+git remote -v
+git fetch origin --prune
+```
+
+如果存在未提交修改，不允许直接 `reset --hard`、覆盖目录或强制 pull。
+
+如需读取 Gitee：
+
+```sh
+git fetch gitee --prune
+```
+
+`fetch` 只更新远程引用，不自动合并工作区。
+
+## 13. Quality Gates Before PR Ready
+
+PR 从 Draft 切换到 Ready 前至少满足：
+
+- 所有 P0 阻塞问题解决；
+- 产品文案与 GeoGi-OS 当前能力一致；
+- 无效果保证 / 排名保证 / 算法臆测；
+- 中国市场边界清晰；
+- 移动导航可用；
+- 桌面 / 移动关键页面通过；
+- 无已知 broken links；
+- 官方 Logo / 联系方式资产正确；
+- Research Center 只有一个 canonical 体系；
+- sitemap / feed 与已发布文章一致；
+- 自动检查通过，或明确记录无法执行原因。
+
+## 14. Production Release Gate
+
+GitHub PR 合并不等于直接上线。
+
+正式发布必须经过：
+
+```text
+GitHub main approved state
+→ Gitee release candidate
+→ 中国团队验收
+→ 明确人工批准
+→ Gitee master
+→ production
+```
+
+生产发布后必须记录：
+
+- GitHub release commit SHA；
+- Gitee release / master 对应 commit；
+- 发布日期；
+- 验收人；
+- 已知限制；
+- 回滚点。
+
+## 15. Emergency Hotfix
+
+只有生产故障等紧急情况允许优先在 Gitee 修复。
+
+规则：
+
+1. 记录 hotfix commit；
+2. 尽快把同一修复 backport 回 GitHub；
+3. 通过 GitHub PR 恢复唯一开发事实源；
+4. 在下一次正常发布前确认 GitHub / Gitee 没有未解释差异。
+
+禁止长期双向独立开发。
