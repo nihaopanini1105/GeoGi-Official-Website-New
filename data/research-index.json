@@ -1,0 +1,48 @@
+{
+  "updated": "2026-08-12",
+  "categories": [
+    "GEO 基础研究",
+    "AI 平台研究",
+    "GeoGi 方法论",
+    "行业研究",
+    "年度研究报告"
+  ],
+  "items": [
+    {
+      "slug": "what-is-geo-ai-search-era",
+      "title": "什么是 GEO？从 SEO 到 AI 推荐时代，品牌如何建立新的增长入口",
+      "description": "系统解释 GEO 的定义、边界、与 SEO 的关系，以及品牌为什么需要建立新的 AI 可见度能力。",
+      "category": "GEO 基础研究",
+      "tags": ["GEO", "SEO", "AI 可见度"],
+      "status": "published",
+      "published_at": "2026-07-14",
+      "updated_at": "2026-08-12",
+      "canonical_path": "/insights/what-is-geo-ai-search-era/",
+      "featured": true
+    },
+    {
+      "slug": "what-is-geogi",
+      "title": "GeoGi 是什么？品牌 AI 可见度诊断与 GEO 优化方法",
+      "description": "介绍 GeoGi 面向中国市场的服务边界、诊断方法、证据链、优化路径与同口径复测原则。",
+      "category": "GeoGi 方法论",
+      "tags": ["GeoGi", "AI 可见度", "方法论"],
+      "status": "published",
+      "published_at": "2026-08-12",
+      "updated_at": "2026-08-12",
+      "canonical_path": "/insights/what-is-geogi/",
+      "featured": true
+    },
+    {
+      "slug": "why-ai-recommends-competitors",
+      "title": "为什么 AI 推荐了你的竞品，却没有推荐你？",
+      "description": "从品牌事实、场景匹配、第三方信源、内容结构与证据完整性五个角度解释常见差异，并给出可验证的诊断路径。",
+      "category": "GeoGi 方法论",
+      "tags": ["竞品", "品牌诊断", "AI 推荐"],
+      "status": "published",
+      "published_at": "2026-08-12",
+      "updated_at": "2026-08-12",
+      "canonical_path": "/insights/why-ai-recommends-competitors/",
+      "featured": true
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+/* GeoGi Website v9 foundation overrides.
+   Intentionally small: shared navigation, contact rendering and accessibility
+   without redesigning the existing v17/v18 visual system. */
+
+.mobile-nav-toggle {
+  display: none;
+  appearance: none;
+  border: 1px solid rgba(20, 124, 255, .18);
+  background: rgba(255, 255, 255, .92);
+  color: #071a3d;
+  min-width: 46px;
+  min-height: 46px;
+  padding: 0 13px;
+  border-radius: 14px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(17, 47, 122, .06);
+}
+
+.mobile-nav-toggle__bars {
+  width: 18px;
+  height: 14px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 0 0 auto;
+}
+
+.mobile-nav-toggle__bars span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 99px;
+  background: currentColor;
+  transform-origin: center;
+  transition: transform .18s ease, opacity .18s ease;
+}
+
+.mobile-nav-toggle[aria-expanded="true"] .mobile-nav-toggle__bars span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.mobile-nav-toggle[aria-expanded="true"] .mobile-nav-toggle__bars span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-nav-toggle[aria-expanded="true"] .mobile-nav-toggle__bars span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.mobile-nav-toggle:focus-visible,
+.site-header .nav a:focus-visible {
+  outline: 3px solid rgba(20, 124, 255, .34);
+  outline-offset: 3px;
+}
+
+.v9-contact-panel {
+  min-width: 0;
+}
+
+.v9-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.v9-contact-method,
+.v9-contact-empty {
+  border: 1px solid rgba(207, 224, 246, .96);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, .94);
+  padding: 16px;
+}
+
+.v9-contact-method img {
+  width: 100%;
+  max-width: 180px;
+  aspect-ratio: 1;
+  object-fit: contain;
+  margin: 0 auto 12px;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.v9-contact-method strong,
+.v9-contact-empty strong {
+  display: block;
+  color: #071a3d;
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.v9-contact-method span,
+.v9-contact-empty span {
+  display: block;
+  color: #5e6f8f;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+@media (max-width: 920px) {
+  .site-header .wrap,
+  .site-header .nav-wrap {
+    position: relative;
+  }
+
+  .mobile-nav-toggle {
+    display: inline-flex;
+    flex: 0 0 auto;
+  }
+
+  /* Overrides legacy `.nav { display:none }` rules on smaller screens. */
+  .site-header .nav {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 4px;
+    padding: 12px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border: 1px solid rgba(207, 224, 246, .96);
+    border-radius: 20px;
+    background: rgba(250, 253, 255, .98);
+    box-shadow: 0 20px 52px rgba(7, 26, 61, .16);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .site-header .nav.is-open {
+    display: flex;
+  }
+
+  .site-header .nav a {
+    width: 100%;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 15px;
+  }
+
+  .site-header .nav a:hover {
+    background: rgba(20, 124, 255, .07);
+  }
+
+  .site-header .nav .nav-cta {
+    justify-content: center;
+    min-height: 46px;
+    height: auto;
+    margin-top: 4px;
+    color: #fff !important;
+  }
+
+  .v9-contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body.geogi-nav-open {
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 360px) {
+  .brand-sub {
+    display: none;
+  }
+
+  .mobile-nav-toggle {
+    min-width: 44px;
+    padding-inline: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav-toggle__bars span {
+    transition: none;
+  }
+}
