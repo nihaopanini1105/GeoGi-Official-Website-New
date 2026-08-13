@@ -1,0 +1,38 @@
+name: Website QA
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main, fix/v9-release-blockers]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate website release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run release QA
+        run: node scripts/validate-site.js
+
+      - name: Package release candidate
+        if: success()
+        run: zip -r GeoGi-Official-Website-v9-Final.zip . -x '.git/*' 'GeoGi-Official-Website-v9-Final.zip'
+
+      - name: Upload release candidate
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: GeoGi-Official-Website-v9-Final
+          path: GeoGi-Official-Website-v9-Final.zip
+          retention-days: 14
