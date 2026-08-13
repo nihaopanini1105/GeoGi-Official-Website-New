@@ -5,9 +5,19 @@
       "id": "wecom",
       "name": "企业微信",
       "purpose": "商务咨询 / 项目沟通",
-      "enabled": false,
+      "enabled": true,
       "display": true,
-      "status": "正式入口确认后开放"
+      "value": "GeoGi-Advisor",
+      "action": "copy"
+    },
+    {
+      "id": "email",
+      "name": "邮箱",
+      "purpose": "商务咨询 / 资料沟通",
+      "enabled": true,
+      "display": true,
+      "value": "hello@geogi.ai",
+      "href": "mailto:hello@geogi.ai"
     },
     {
       "id": "wechat_official",
