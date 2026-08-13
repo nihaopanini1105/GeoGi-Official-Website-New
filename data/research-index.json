@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-12",
+  "updated": "2026-08-13",
   "categories": [
     "GEO 基础研究",
     "AI 平台研究",
@@ -16,7 +16,7 @@
       "tags": ["GEO", "SEO", "AI 可见度"],
       "status": "published",
       "published_at": "2026-07-14",
-      "updated_at": "2026-08-12",
+      "updated_at": "2026-08-13",
       "canonical_path": "/insights/what-is-geo-ai-search-era/",
       "featured": true
     },
@@ -28,7 +28,7 @@
       "tags": ["GeoGi", "AI 可见度", "方法论"],
       "status": "published",
       "published_at": "2026-08-12",
-      "updated_at": "2026-08-12",
+      "updated_at": "2026-08-13",
       "canonical_path": "/insights/what-is-geogi/",
       "featured": true
     },
@@ -40,7 +40,7 @@
       "tags": ["竞品", "品牌诊断", "AI 推荐"],
       "status": "published",
       "published_at": "2026-08-12",
-      "updated_at": "2026-08-12",
+      "updated_at": "2026-08-13",
       "canonical_path": "/insights/why-ai-recommends-competitors/",
       "featured": true
     }
