@@ -1,0 +1,33 @@
+name: Apply Logo System v1.0 migration
+
+on:
+  push:
+    branches: [chore/logo-system-v1-rollout]
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: chore/logo-system-v1-rollout
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Apply migration
+        run: node scripts/migrate-logo-system.js
+      - name: Validate patch
+        run: |
+          git diff --check
+          node scripts/validate-site.js
+      - name: Commit migration result
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "brand: apply GeoGi Logo System v1.0 across website"
+          git push origin HEAD:chore/logo-system-v1-rollout

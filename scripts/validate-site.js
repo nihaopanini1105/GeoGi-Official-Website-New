@@ -24,9 +24,15 @@ const requiredFiles = [
   'assets/css/v9-final.css',
   'assets/js/navigation.js',
   'assets/js/contact.js',
-  'assets/brand/geogi-logo-dark.png',
-  'assets/brand/favicon-32.png',
-  'assets/brand/apple-touch-icon.png',
+  'assets/brand/geogi-logo-horizontal-navy.svg',
+  'assets/brand/geogi-logo-horizontal-white.svg',
+  'assets/brand/geogi-logo-vertical-navy.svg',
+  'assets/brand/geogi-logo-vertical-white.svg',
+  'assets/brand/geogi-wordmark-navy.svg',
+  'assets/brand/geogi-wordmark-white.svg',
+  'assets/brand/geogi-mark.svg',
+  'assets/brand/geogi-app-icon.svg',
+  'assets/brand/manifest.json',
   'sitemap.xml',
   'robots.txt'
 ];
@@ -81,7 +87,7 @@ if (registry) {
         !/<meta[^>]+content="[^"]+"[^>]+name="description"/i.test(html)) {
       fail(`meta description missing in ${articlePath}`);
     }
-    if (!html.includes('assets/brand/geogi-logo-dark.png')) fail(`official logo missing in ${articlePath}`);
+    if (!html.includes('assets/brand/geogi-logo-horizontal-navy.svg')) fail(`canonical official logo missing in ${articlePath}`);
     if (!html.includes('assets/css/site-v9.css') || !html.includes('assets/css/v9-final.css')) {
       fail(`v9 styles missing in ${articlePath}`);
     }
@@ -104,6 +110,13 @@ if (contact) {
   }
 }
 
+
+let brandManifest;
+try { brandManifest = JSON.parse(read('assets/brand/manifest.json')); }
+catch (error) { fail(`invalid assets/brand/manifest.json: ${error.message}`); }
+if (brandManifest && (brandManifest.version !== '1.0.0' || brandManifest.status !== 'canonical')) fail('GeoGi Logo System manifest is not the frozen v1.0 canonical version');
+for (const retired of ['assets/brand/geogi-logo-dark.png','assets/brand/geogi-logo-dark.svg','assets/brand/geogi-logo-mark-512.png','assets/brand/favicon-32.png','assets/brand/apple-touch-icon.png']) { if (exists(retired)) fail(`retired brand asset still present: ${retired}`); }
+
 const canonicalPages = ['index.html', 'insights/index.html'];
 if (registry && Array.isArray(registry.items)) {
   for (const item of registry.items.filter((x) => x && x.status === 'published')) {
@@ -125,6 +138,10 @@ for (const htmlFile of [...new Set(canonicalPages)]) {
   if (/javascript:void\s*\(0\)/i.test(html)) fail(`javascript:void(0) found in ${htmlFile}`);
   if (/data:image\//i.test(html)) fail(`embedded base64/data image found in ${htmlFile}`);
   if (html.includes('contact@geogi.cn')) fail(`deprecated contact email found in ${htmlFile}`);
+  for (const legacy of ['geogi-logo-dark.png','geogi-logo-dark.svg','geogi-logo-mark-512.png','favicon-32.png','apple-touch-icon.png']) { if (html.includes(legacy)) fail(`legacy brand reference found in ${htmlFile}: ${legacy}`); }
+  if (!html.includes('assets/brand/geogi-logo-horizontal-navy.svg')) fail(`canonical header/footer logo missing in ${htmlFile}`);
+  if (!html.includes('assets/brand/geogi-app-icon.svg')) fail(`canonical app icon missing in ${htmlFile}`);
+
 
   const refs = [...html.matchAll(/(?:href|src)="([^"]+)"/gi)].map((match) => match[1]);
   for (const ref of refs) {
