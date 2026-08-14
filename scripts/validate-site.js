@@ -178,7 +178,25 @@ if (contact) {
   }
   for (const id of ['wechat_official', 'xiaohongshu']) {
     const channel = channels.find((item) => item && item.id === id);
-    if (channel && channel.enabled === true && !channel.href) fail(`public channel enabled without verified href: ${id}`);
+    if (!channel || channel.enabled !== true || channel.display !== true || channel.footer_display !== true) {
+      fail(`footer social channel is not fully enabled: ${id}`);
+      continue;
+    }
+    if (!channel.display_name || !channel.scan_text) fail(`footer social metadata missing: ${id}`);
+    if (!/^data:image\/webp;base64,/i.test(channel.qr_image || '')) fail(`footer social QR is not embedded as WebP data URI: ${id}`);
+  }
+}
+
+const navigation = exists('assets/js/navigation.js') ? read('assets/js/navigation.js') : '';
+if (navigation) {
+  for (const invariant of [
+    '京ICP备2026048011号-2',
+    'https://beian.miit.gov.cn/',
+    "fetch('/data/contact.json'",
+    'data-footer-socials',
+    'footer_display'
+  ]) {
+    if (!navigation.includes(invariant)) fail(`navigation/footer invariant missing: ${invariant}`);
   }
 }
 
@@ -248,4 +266,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log('Website QA passed: research publishing, routes, metadata, canonical brand bytes, contact baseline, legacy redirects, sitemap and robots are consistent.');
+console.log('Website QA passed: research publishing, routes, metadata, canonical brand bytes, contact baseline, footer QR channels, ICP filing, legacy redirects, sitemap and robots are consistent.');
