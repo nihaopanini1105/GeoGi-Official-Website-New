@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main, fix/v9-release-blockers]
+    branches: [main]
 
 permissions:
   contents: read
@@ -21,6 +21,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
+      - name: Check publishing scripts
+        run: |
+          node --check scripts/publish-research.js
+          node --check assets/js/research-index.js
+          node --check assets/js/contact.js
 
       - name: Run release QA
         run: node scripts/validate-site.js
