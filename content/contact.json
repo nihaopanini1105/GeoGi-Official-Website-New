@@ -1,0 +1,39 @@
+{
+  "updated": "2026-08-14",
+  "channels": [
+    {
+      "id": "wecom",
+      "name": "企业微信",
+      "purpose": "商务咨询 / 项目沟通",
+      "enabled": true,
+      "display": true,
+      "value": "GeoGi-Advisor",
+      "action": "copy"
+    },
+    {
+      "id": "email",
+      "name": "邮箱",
+      "purpose": "商务咨询 / 资料沟通",
+      "enabled": true,
+      "display": true,
+      "value": "hello@geogi.ai",
+      "href": "mailto:hello@geogi.ai"
+    },
+    {
+      "id": "wechat_official",
+      "name": "微信公众号",
+      "purpose": "GeoGi 研究与方法内容",
+      "enabled": false,
+      "display": true,
+      "status": "正式账号入口确认后开放"
+    },
+    {
+      "id": "xiaohongshu",
+      "name": "小红书",
+      "purpose": "实验、案例与行业观察",
+      "enabled": false,
+      "display": true,
+      "status": "正式账号入口确认后开放"
+    }
+  ]
+}
