@@ -95,7 +95,7 @@ function articleHtml(meta, bodyHtml) {
     datePublished: meta.published_at,
     dateModified: meta.updated_at,
     author: {'@type':'Organization','name':meta.author},
-    publisher: {'@type':'Organization','name':'GeoGi 几何智引','logo':{'@type':'ImageObject','url':'https://www.geogi.cn/assets/brand/geogi-app-icon.svg'}},
+    publisher: {'@type':'Organization','name':'GeoGi 几何智引','logo':{'@type':'ImageObject','url':'https://www.geogi.cn/assets/brand/geogi-mark.svg'}},
     mainEntityOfPage: canonical
   };
   return `<!DOCTYPE html>
@@ -154,12 +154,60 @@ function updateRegistry(meta) {
   return registry;
 }
 
+function publishedItems(registry) {
+  return (Array.isArray(registry.items) ? registry.items : [])
+    .filter((item) => item && item.status === 'published')
+    .sort((a,b) => String(b.published_at || '').localeCompare(String(a.published_at || '')) || String(a.title || '').localeCompare(String(b.title || ''), 'zh-CN'));
+}
+
+function renderResearchCards(registry) {
+  return publishedItems(registry).map((item) => {
+    const updated = item.updated_at || item.published_at || '';
+    return `      <article class="card research-card"><span class="tag">${esc(item.category)}</span><h3>${esc(item.title)}</h3><p>${esc(item.description)}</p><div class="research-meta"><span class="meta">GeoGi Research</span><span class="meta">更新 ${esc(updated)}</span></div><a class="research-link" href="${esc(item.slug)}/index.html">阅读研究 →</a></article>`;
+  }).join('\n');
+}
+
+function renderCollectionSchema(registry) {
+  const items = publishedItems(registry);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'GeoGi 研究中心',
+    url: 'https://www.geogi.cn/insights/',
+    description: 'GeoGi 的 GEO、AI 可见度、AI 平台与行业研究中心。',
+    publisher: {'@type':'Organization','name':'GeoGi 几何智引','url':'https://www.geogi.cn/'},
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: items.map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: `https://www.geogi.cn${item.canonical_path}`,
+        name: item.title
+      }))
+    }
+  };
+}
+
+function updateResearchIndexPage(registry) {
+  const file = path.join(root, 'insights/index.html');
+  let html = fs.readFileSync(file, 'utf8');
+  const start = '<!-- RESEARCH_ITEMS_START -->';
+  const end = '<!-- RESEARCH_ITEMS_END -->';
+  if (!html.includes(start) || !html.includes(end)) throw new Error('research index publish markers missing');
+  html = html.replace(new RegExp(`${start}[\\s\\S]*?${end}`), `${start}\n${renderResearchCards(registry)}\n      ${end}`);
+  const schema = JSON.stringify(renderCollectionSchema(registry));
+  const schemaPattern = /<script id="research-collection-schema" type="application\/ld\+json">[\s\S]*?<\/script>/;
+  if (!schemaPattern.test(html)) throw new Error('research collection schema node missing');
+  html = html.replace(schemaPattern, `<script id="research-collection-schema" type="application/ld+json">${schema}</script>`);
+  fs.writeFileSync(file, html);
+}
+
 function updateSitemap(registry) {
   const lastmod = registry.updated;
   const urls = [
     {loc:'https://www.geogi.cn/', lastmod},
     {loc:'https://www.geogi.cn/insights/', lastmod},
-    ...registry.items.filter((x) => x.status === 'published').map((x) => ({loc:`https://www.geogi.cn${x.canonical_path}`, lastmod:x.updated_at || x.published_at}))
+    ...publishedItems(registry).map((x) => ({loc:`https://www.geogi.cn${x.canonical_path}`, lastmod:x.updated_at || x.published_at}))
   ];
   const xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.map((u) => `  <url>\n    <loc>${esc(u.loc)}</loc>\n    <lastmod>${esc(u.lastmod)}</lastmod>\n  </url>`).join('\n') + '\n</urlset>\n';
   fs.writeFileSync(path.join(root, 'sitemap.xml'), xml);
@@ -175,5 +223,6 @@ const outDir = path.join(root, 'insights', meta.slug);
 fs.mkdirSync(outDir, {recursive:true});
 fs.writeFileSync(path.join(outDir, 'index.html'), articleHtml(meta, bodyHtml));
 const registry = updateRegistry(meta);
+updateResearchIndexPage(registry);
 updateSitemap(registry);
-console.log(`Published ${meta.slug}: article HTML, research registry and sitemap updated.`);
+console.log(`Published ${meta.slug}: article HTML, research registry, research index/schema and sitemap updated.`);
