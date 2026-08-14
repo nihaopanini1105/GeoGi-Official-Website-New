@@ -1,0 +1,103 @@
+name: Sync Gitee
+
+on:
+  workflow_run:
+    workflows: ["Website QA"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gitee-production-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Sync GitHub main to Gitee master
+    if: >-
+      ${{
+        vars.GITEE_SYNC_ENABLED == 'true' &&
+        (
+          github.event_name == 'workflow_dispatch' ||
+          (
+            github.event.workflow_run.conclusion == 'success' &&
+            github.event.workflow_run.head_branch == 'main'
+          )
+        )
+      }}
+    runs-on: ubuntu-latest
+    env:
+      GITEE_USERNAME: ${{ secrets.GITEE_USERNAME }}
+      GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+      GITEE_REPOSITORY: sanshen-tech/geogi_order_web
+    steps:
+      - name: Resolve approved GitHub commit
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            echo "sha=${{ github.event.workflow_run.head_sha }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "sha=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate credentials are configured
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$GITEE_USERNAME" || { echo "GITEE_USERNAME secret is missing" >&2; exit 1; }
+          test -n "$GITEE_TOKEN" || { echo "GITEE_TOKEN secret is missing" >&2; exit 1; }
+
+      - name: Checkout approved GitHub commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.source.outputs.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify source commit belongs to main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main --no-tags
+          git merge-base --is-ancestor "${{ steps.source.outputs.sha }}" origin/main
+
+      - name: Configure Gitee remote
+        shell: bash
+        run: |
+          set -euo pipefail
+          git remote add gitee "https://${GITEE_USERNAME}:${GITEE_TOKEN}@gitee.com/${GITEE_REPOSITORY}.git"
+
+      - name: Verify fast-forward safety
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads gitee master >/dev/null 2>&1; then
+            git fetch gitee master:refs/remotes/gitee/master --no-tags
+            if ! git merge-base --is-ancestor refs/remotes/gitee/master HEAD; then
+              echo "Gitee master is not an ancestor of the approved GitHub commit." >&2
+              echo "Sync stopped. No force push was attempted." >&2
+              exit 1
+            fi
+          fi
+
+      - name: Push GitHub main commit to Gitee master
+        shell: bash
+        run: |
+          set -euo pipefail
+          git push gitee HEAD:refs/heads/master
+
+      - name: Verify Gitee master matches source commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected="${{ steps.source.outputs.sha }}"
+          actual="$(git ls-remote gitee refs/heads/master | awk '{print $1}')"
+          test "$actual" = "$expected" || {
+            echo "Gitee verification failed: expected $expected, got $actual" >&2
+            exit 1
+          }
+          echo "Gitee master verified at $actual"
