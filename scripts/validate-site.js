@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const root = process.cwd();
 const errors = [];
@@ -20,10 +21,14 @@ const requiredFiles = [
   'insights/index.html',
   'data/research-index.json',
   'data/contact.json',
+  'content/research/_template.md',
+  'scripts/publish-research.js',
   'assets/css/site-v9.css',
   'assets/css/v9-final.css',
   'assets/js/navigation.js',
   'assets/js/contact.js',
+  'assets/js/research-index.js',
+  'assets/brand/README.md',
   'assets/brand/geogi-logo-horizontal-navy.svg',
   'assets/brand/geogi-logo-horizontal-white.svg',
   'assets/brand/geogi-logo-vertical-navy.svg',
@@ -41,12 +46,76 @@ for (const file of requiredFiles) {
   if (!exists(file)) fail(`missing required file: ${file}`);
 }
 
+for (const retired of [
+  '.github/workflows/logo-system-migration.yml',
+  'scripts/migrate-logo-system.js',
+  'assets/brand/RELEASE.md',
+  'assets/brand/geogi-logo-dark.png',
+  'assets/brand/geogi-logo-dark.svg',
+  'assets/brand/geogi-logo-mark-512.png',
+  'assets/brand/favicon-32.png',
+  'assets/brand/apple-touch-icon.png'
+]) {
+  if (exists(retired)) fail(`retired or one-time file still present: ${retired}`);
+}
+
+function gitBlobSha(rel) {
+  const data = fs.readFileSync(path.join(root, rel));
+  const framed = Buffer.concat([Buffer.from(`blob ${data.length}\0`), data]);
+  return crypto.createHash('sha1').update(framed).digest('hex');
+}
+
+const canonicalBrandBlobs = {
+  'assets/brand/geogi-app-icon.svg': '803a58e48f1ed301e7b958c995a57fe9a818f6c4',
+  'assets/brand/geogi-logo-horizontal-navy.svg': '13635b14822e01d49c0f11c1f413d17d671e00e5',
+  'assets/brand/geogi-logo-horizontal-white.svg': '18a5f7588fca10eced6555859b65df20af9574e7',
+  'assets/brand/geogi-logo-vertical-navy.svg': '05866f6299755c39dea110c1562e3bb5bc557fa2',
+  'assets/brand/geogi-logo-vertical-white.svg': '894a0650da229b81c96117dcb66c3a5f76343b12',
+  'assets/brand/geogi-mark.svg': 'f1c8582e13f91b385cebb48efa899319d919fffc',
+  'assets/brand/geogi-wordmark-navy.svg': 'aea2a726c230627016b48cb25930df4cb6a7b680',
+  'assets/brand/geogi-wordmark-white.svg': '4354666332b8316bfbf41375921d6a7e353d6722'
+};
+for (const [file, expected] of Object.entries(canonicalBrandBlobs)) {
+  if (exists(file)) {
+    const actual = gitBlobSha(file);
+    if (actual !== expected) fail(`canonical brand asset byte drift: ${file} expected ${expected}, got ${actual}`);
+  }
+}
+
 let registry;
 let contact;
 try { registry = JSON.parse(read('data/research-index.json')); }
 catch (error) { fail(`invalid data/research-index.json: ${error.message}`); }
 try { contact = JSON.parse(read('data/contact.json')); }
 catch (error) { fail(`invalid data/contact.json: ${error.message}`); }
+
+const insightsIndex = exists('insights/index.html') ? read('insights/index.html') : '';
+if (insightsIndex) {
+  for (const invariant of [
+    'data-research-grid',
+    'id="research-collection-schema"',
+    '<!-- RESEARCH_ITEMS_START -->',
+    '<!-- RESEARCH_ITEMS_END -->',
+    '../assets/js/research-index.js'
+  ]) {
+    if (!insightsIndex.includes(invariant)) fail(`research index missing publishing invariant: ${invariant}`);
+  }
+}
+
+if (exists('content/research')) {
+  const sourceFiles = fs.readdirSync(path.join(root, 'content/research'))
+    .filter((name) => name.endsWith('.md') && name !== '_template.md');
+  for (const name of sourceFiles) {
+    const text = read(`content/research/${name}`);
+    const status = (text.match(/^status:\s*["']?([^\n"']+)/m) || [])[1];
+    const review = (text.match(/^review_status:\s*["']?([^\n"']+)/m) || [])[1];
+    const category = (text.match(/^category:\s*["']?([^\n"']+)/m) || [])[1];
+    if (category && !fixedCategories.includes(category.trim())) fail(`invalid research source category in ${name}: ${category.trim()}`);
+    if (status && status.trim() === 'published' && (!review || review.trim() !== 'approved')) {
+      fail(`published research source must be approved: ${name}`);
+    }
+  }
+}
 
 if (registry) {
   if (JSON.stringify(registry.categories) !== JSON.stringify(fixedCategories)) {
@@ -57,7 +126,6 @@ if (registry) {
     : [];
   if (!published.length) fail('research registry has no published items');
 
-  const insightsIndex = exists('insights/index.html') ? read('insights/index.html') : '';
   const sitemap = exists('sitemap.xml') ? read('sitemap.xml') : '';
 
   for (const item of published) {
@@ -108,14 +176,18 @@ if (contact) {
   if (!wecom || wecom.value !== 'GeoGi-Advisor') {
     fail('official WeCom account does not match the approved MiniProgram baseline');
   }
+  for (const id of ['wechat_official', 'xiaohongshu']) {
+    const channel = channels.find((item) => item && item.id === id);
+    if (channel && channel.enabled === true && !channel.href) fail(`public channel enabled without verified href: ${id}`);
+  }
 }
-
 
 let brandManifest;
 try { brandManifest = JSON.parse(read('assets/brand/manifest.json')); }
 catch (error) { fail(`invalid assets/brand/manifest.json: ${error.message}`); }
-if (brandManifest && (brandManifest.version !== '1.0.0' || brandManifest.status !== 'canonical')) fail('GeoGi Logo System manifest is not the frozen v1.0 canonical version');
-for (const retired of ['assets/brand/geogi-logo-dark.png','assets/brand/geogi-logo-dark.svg','assets/brand/geogi-logo-mark-512.png','assets/brand/favicon-32.png','assets/brand/apple-touch-icon.png']) { if (exists(retired)) fail(`retired brand asset still present: ${retired}`); }
+if (brandManifest && (brandManifest.version !== '1.0.0' || brandManifest.status !== 'canonical')) {
+  fail('GeoGi Logo System manifest is not the frozen v1.0 canonical version');
+}
 
 const canonicalPages = ['index.html', 'insights/index.html'];
 if (registry && Array.isArray(registry.items)) {
@@ -138,10 +210,11 @@ for (const htmlFile of [...new Set(canonicalPages)]) {
   if (/javascript:void\s*\(0\)/i.test(html)) fail(`javascript:void(0) found in ${htmlFile}`);
   if (/data:image\//i.test(html)) fail(`embedded base64/data image found in ${htmlFile}`);
   if (html.includes('contact@geogi.cn')) fail(`deprecated contact email found in ${htmlFile}`);
-  for (const legacy of ['geogi-logo-dark.png','geogi-logo-dark.svg','geogi-logo-mark-512.png','favicon-32.png','apple-touch-icon.png']) { if (html.includes(legacy)) fail(`legacy brand reference found in ${htmlFile}: ${legacy}`); }
+  for (const legacy of ['geogi-logo-dark.png','geogi-logo-dark.svg','geogi-logo-mark-512.png','favicon-32.png','apple-touch-icon.png']) {
+    if (html.includes(legacy)) fail(`legacy brand reference found in ${htmlFile}: ${legacy}`);
+  }
   if (!html.includes('assets/brand/geogi-logo-horizontal-navy.svg')) fail(`canonical header/footer logo missing in ${htmlFile}`);
   if (!html.includes('assets/brand/geogi-app-icon.svg')) fail(`canonical app icon missing in ${htmlFile}`);
-
 
   const refs = [...html.matchAll(/(?:href|src)="([^"]+)"/gi)].map((match) => match[1]);
   for (const ref of refs) {
@@ -175,4 +248,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log('Website QA passed: routes, metadata, assets, contact baseline, legacy redirects, sitemap and robots are consistent.');
+console.log('Website QA passed: research publishing, routes, metadata, canonical brand bytes, contact baseline, legacy redirects, sitemap and robots are consistent.');
