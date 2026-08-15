@@ -97,6 +97,7 @@ jobs:
           chmod 700 "$askpass"
           echo "GIT_ASKPASS=$askpass" >> "$GITHUB_ENV"
           echo "GIT_TERMINAL_PROMPT=0" >> "$GITHUB_ENV"
+          git config --local credential.https://gitee.com.username "$GITEE_USERNAME"
           git remote add gitee "https://gitee.com/${GITEE_REPOSITORY}.git"
 
       - name: Inspect Gitee master safely
@@ -104,8 +105,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          error_file="$RUNNER_TEMP/gitee-ls-remote.err"
+
           set +e
-          git ls-remote --exit-code --heads gitee master >/dev/null 2>&1
+          git ls-remote --exit-code --heads gitee master >/dev/null 2>"$error_file"
           status=$?
           set -e
 
@@ -113,9 +116,20 @@ jobs:
             git fetch gitee refs/heads/master:refs/remotes/gitee/master --no-tags
             echo "exists=true" >> "$GITHUB_OUTPUT"
           elif [ "$status" -eq 2 ]; then
+            echo "Gitee repository is reachable and master does not exist yet."
             echo "exists=false" >> "$GITHUB_OUTPUT"
           else
-            echo "Unable to verify Gitee master; refusing to push." >&2
+            echo "Gitee remote inspection failed (git exit $status)." >&2
+            if [ -s "$error_file" ]; then
+              cat "$error_file" >&2
+            fi
+            if grep -Eiq 'incorrect username|password|access token|authentication failed|403|permission denied|access denied' "$error_file"; then
+              echo "Gitee authentication or repository write/read permission is invalid. Check GITEE_USERNAME, GITEE_TOKEN, and repository membership." >&2
+            elif grep -Eiq 'not found|does not exist|repository.*not found' "$error_file"; then
+              echo "Gitee repository path could not be resolved. Check sanshen-tech/geogi_order_web." >&2
+            else
+              echo "Unable to verify Gitee master; refusing to push." >&2
+            fi
             exit "$status"
           fi
 
