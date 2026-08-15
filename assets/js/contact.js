@@ -10,7 +10,7 @@
     .replace(/'/g, '&#039;');
 
   const renderEmpty = () => {
-    panel.innerHTML = '<div class="v9-contact-empty"><strong>官方联系方式正在更新</strong><span>正式入口确认后将在这里开放。</span></div>';
+    panel.innerHTML = '<div class="v9-contact-empty"><strong>官方联系方式暂不可用</strong><span>请稍后再试。</span></div>';
   };
 
   const copyText = function (value, button) {
@@ -39,7 +39,7 @@
     document.body.removeChild(input);
   };
 
-  fetch('data/contact.json', { cache: 'no-store' })
+  fetch('/data/contact.json', { cache: 'no-store' })
     .then(function (response) {
       if (!response.ok) throw new Error('contact config unavailable');
       return response.json();
