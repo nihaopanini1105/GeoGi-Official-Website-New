@@ -1,0 +1,138 @@
+name: Sync Gitee
+
+on:
+  workflow_run:
+    workflows: ["Website QA"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gitee-production-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Sync approved GitHub content to Gitee master
+    if: >-
+      ${{
+        vars.GITEE_SYNC_ENABLED == 'true' &&
+        (
+          github.event_name == 'workflow_dispatch' ||
+          (
+            github.event.workflow_run.conclusion == 'success' &&
+            github.event.workflow_run.head_branch == 'main'
+          )
+        )
+      }}
+    runs-on: ubuntu-latest
+    env:
+      GITEE_USERNAME: ${{ secrets.GITEE_USERNAME }}
+      GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+      GITEE_REPOSITORY: sanshen-tech/geogi_order_web
+    steps:
+      - name: Resolve approved GitHub commit
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            echo "sha=${{ github.event.workflow_run.head_sha }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "sha=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate credentials are configured
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$GITEE_USERNAME" || { echo "GITEE_USERNAME secret is missing" >&2; exit 1; }
+          test -n "$GITEE_TOKEN" || { echo "GITEE_TOKEN secret is missing" >&2; exit 1; }
+
+      - name: Checkout approved GitHub commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.source.outputs.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify source commit belongs to main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main --no-tags
+          git merge-base --is-ancestor "${{ steps.source.outputs.sha }}" origin/main
+
+      - name: Record approved source tree
+        id: source_tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "tree=$(git rev-parse HEAD^{tree})" >> "$GITHUB_OUTPUT"
+
+      - name: Configure Gitee remote
+        shell: bash
+        run: |
+          set -euo pipefail
+          git remote add gitee "https://${GITEE_USERNAME}:${GITEE_TOKEN}@gitee.com/${GITEE_REPOSITORY}.git"
+
+      - name: Build non-destructive Gitee sync commit
+        id: sync
+        shell: bash
+        env:
+          GIT_AUTHOR_NAME: GeoGi Release Bot
+          GIT_AUTHOR_EMAIL: release@geogi.cn
+          GIT_COMMITTER_NAME: GeoGi Release Bot
+          GIT_COMMITTER_EMAIL: release@geogi.cn
+        run: |
+          set -euo pipefail
+          source_sha="${{ steps.source.outputs.sha }}"
+          source_tree="${{ steps.source_tree.outputs.tree }}"
+
+          if git ls-remote --exit-code --heads gitee master >/dev/null 2>&1; then
+            git fetch gitee master:refs/remotes/gitee/master --no-tags
+            remote_commit="$(git rev-parse refs/remotes/gitee/master)"
+            remote_tree="$(git rev-parse refs/remotes/gitee/master^{tree})"
+
+            if [ "$remote_tree" = "$source_tree" ]; then
+              echo "Gitee master already has the approved website content."
+              echo "commit=$remote_commit" >> "$GITHUB_OUTPUT"
+              echo "noop=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            sync_commit="$(printf '%s\n\n%s\n' \
+              "sync: mirror approved GitHub website content" \
+              "Source-GitHub-Commit: $source_sha" | \
+              git commit-tree "$source_tree" -p "$remote_commit")"
+          else
+            sync_commit="$(printf '%s\n\n%s\n' \
+              "sync: initialize Gitee master from approved GitHub content" \
+              "Source-GitHub-Commit: $source_sha" | \
+              git commit-tree "$source_tree")"
+          fi
+
+          echo "commit=$sync_commit" >> "$GITHUB_OUTPUT"
+          echo "noop=false" >> "$GITHUB_OUTPUT"
+
+      - name: Push sync commit to Gitee master
+        if: steps.sync.outputs.noop != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git push gitee "${{ steps.sync.outputs.commit }}:refs/heads/master"
+
+      - name: Verify Gitee content matches approved GitHub tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch gitee master:refs/remotes/gitee/verified-master --force --no-tags
+          expected_tree="${{ steps.source_tree.outputs.tree }}"
+          actual_tree="$(git rev-parse refs/remotes/gitee/verified-master^{tree})"
+          test "$actual_tree" = "$expected_tree" || {
+            echo "Gitee content verification failed: expected tree $expected_tree, got $actual_tree" >&2
+            exit 1
+          }
+          echo "Gitee master content verified against GitHub source ${{ steps.source.outputs.sha }}"
