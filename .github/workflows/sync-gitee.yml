@@ -15,13 +15,18 @@ concurrency:
 
 jobs:
   sync:
-    name: Sync approved GitHub content to Gitee master
+    name: Sync approved GitHub main content to Gitee master
     if: >-
       ${{
         vars.GITEE_SYNC_ENABLED == 'true' &&
         (
-          github.event_name == 'workflow_dispatch' ||
           (
+            github.event_name == 'workflow_dispatch' &&
+            github.ref == 'refs/heads/main'
+          ) ||
+          (
+            github.event_name == 'workflow_run' &&
+            github.event.workflow_run.event == 'push' &&
             github.event.workflow_run.conclusion == 'success' &&
             github.event.workflow_run.head_branch == 'main'
           )
@@ -58,12 +63,16 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Verify source commit belongs to main
+      - name: Verify source is current GitHub main
         shell: bash
         run: |
           set -euo pipefail
           git fetch origin main --no-tags
-          git merge-base --is-ancestor "${{ steps.source.outputs.sha }}" origin/main
+          current_main="$(git rev-parse origin/main)"
+          test "${{ steps.source.outputs.sha }}" = "$current_main" || {
+            echo "Approved source is not the current GitHub main: expected $current_main" >&2
+            exit 1
+          }
 
       - name: Record approved source tree
         id: source_tree
@@ -72,11 +81,43 @@ jobs:
           set -euo pipefail
           echo "tree=$(git rev-parse HEAD^{tree})" >> "$GITHUB_OUTPUT"
 
-      - name: Configure Gitee remote
+      - name: Configure Gitee authentication
         shell: bash
         run: |
           set -euo pipefail
-          git remote add gitee "https://${GITEE_USERNAME}:${GITEE_TOKEN}@gitee.com/${GITEE_REPOSITORY}.git"
+          askpass="$RUNNER_TEMP/gitee-askpass.sh"
+          cat > "$askpass" <<'EOF'
+          #!/usr/bin/env bash
+          case "$1" in
+            *Username*) printf '%s\n' "$GITEE_USERNAME" ;;
+            *Password*) printf '%s\n' "$GITEE_TOKEN" ;;
+            *) exit 1 ;;
+          esac
+          EOF
+          chmod 700 "$askpass"
+          echo "GIT_ASKPASS=$askpass" >> "$GITHUB_ENV"
+          echo "GIT_TERMINAL_PROMPT=0" >> "$GITHUB_ENV"
+          git remote add gitee "https://gitee.com/${GITEE_REPOSITORY}.git"
+
+      - name: Inspect Gitee master safely
+        id: remote
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          git ls-remote --exit-code --heads gitee master >/dev/null 2>&1
+          status=$?
+          set -e
+
+          if [ "$status" -eq 0 ]; then
+            git fetch gitee refs/heads/master:refs/remotes/gitee/master --no-tags
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          elif [ "$status" -eq 2 ]; then
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Unable to verify Gitee master; refusing to push." >&2
+            exit "$status"
+          fi
 
       - name: Build non-destructive Gitee sync commit
         id: sync
@@ -91,8 +132,7 @@ jobs:
           source_sha="${{ steps.source.outputs.sha }}"
           source_tree="${{ steps.source_tree.outputs.tree }}"
 
-          if git ls-remote --exit-code --heads gitee master >/dev/null 2>&1; then
-            git fetch gitee master:refs/remotes/gitee/master --no-tags
+          if [ "${{ steps.remote.outputs.exists }}" = "true" ]; then
             remote_commit="$(git rev-parse refs/remotes/gitee/master)"
             remote_tree="$(git rev-parse refs/remotes/gitee/master^{tree})"
 
@@ -128,7 +168,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git fetch gitee master:refs/remotes/gitee/verified-master --force --no-tags
+          git fetch gitee refs/heads/master:refs/remotes/gitee/verified-master --force --no-tags
           expected_tree="${{ steps.source_tree.outputs.tree }}"
           actual_tree="$(git rev-parse refs/remotes/gitee/verified-master^{tree})"
           test "$actual_tree" = "$expected_tree" || {
