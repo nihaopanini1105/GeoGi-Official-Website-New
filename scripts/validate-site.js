@@ -84,10 +84,59 @@ for (const [file, expected] of Object.entries(canonicalBrandBlobs)) {
 
 let registry;
 let contact;
+let brandManifest;
 try { registry = JSON.parse(read('data/research-index.json')); }
 catch (error) { fail(`invalid data/research-index.json: ${error.message}`); }
 try { contact = JSON.parse(read('data/contact.json')); }
 catch (error) { fail(`invalid data/contact.json: ${error.message}`); }
+try { brandManifest = JSON.parse(read('assets/brand/manifest.json')); }
+catch (error) { fail(`invalid assets/brand/manifest.json: ${error.message}`); }
+
+if (brandManifest && (brandManifest.version !== '1.0.0' || brandManifest.status !== 'canonical')) {
+  fail('GeoGi Logo System manifest is not the frozen v1.0 canonical version');
+}
+
+if (contact) {
+  const channels = Array.isArray(contact.channels) ? contact.channels : [];
+  const email = channels.find((item) => item && item.id === 'email');
+  if (!email || email.enabled !== true || email.display !== true ||
+      email.value !== 'contact@geogi.cn' || email.href !== 'mailto:contact@geogi.cn') {
+    fail('verified public email channel must be contact@geogi.cn and enabled/displayed');
+  }
+  if (channels.some((item) => item && item.id !== 'email')) {
+    fail('public contact config contains an unverified non-email channel');
+  }
+}
+
+const contactJs = exists('assets/js/contact.js') ? read('assets/js/contact.js') : '';
+if (contactJs && !contactJs.includes("fetch('/data/contact.json'")) {
+  fail('contact.js must fetch the canonical absolute /data/contact.json path');
+}
+
+const navigation = exists('assets/js/navigation.js') ? read('assets/js/navigation.js') : '';
+if (navigation) {
+  for (const invariant of ['京ICP备2026048011号-2', 'https://beian.miit.gov.cn/', 'data-icp-filing']) {
+    if (!navigation.includes(invariant)) fail(`navigation/footer invariant missing: ${invariant}`);
+  }
+  for (const forbidden of ['data-footer-socials', 'footer_display', "fetch('/data/contact.json'"]) {
+    if (navigation.includes(forbidden)) fail(`unverified footer social runtime remains: ${forbidden}`);
+  }
+}
+
+for (const file of ['data/contact.json', 'assets/js/contact.js', 'assets/js/navigation.js', 'index.html']) {
+  if (!exists(file)) continue;
+  const text = read(file);
+  const forbiddenPatterns = [
+    /hello@geogi\.ai/i,
+    /GeoGi-Advisor/i,
+    /data:image\//i,
+    /wechat_official/i,
+    /xiaohongshu/i
+  ];
+  for (const pattern of forbiddenPatterns) {
+    if (pattern.test(text)) fail(`unverified public contact/social value found in ${file}: ${pattern}`);
+  }
+}
 
 const insightsIndex = exists('insights/index.html') ? read('insights/index.html') : '';
 if (insightsIndex) {
@@ -127,7 +176,6 @@ if (registry) {
   if (!published.length) fail('research registry has no published items');
 
   const sitemap = exists('sitemap.xml') ? read('sitemap.xml') : '';
-
   for (const item of published) {
     if (!item.slug || !item.title || !item.description || !item.category || !item.canonical_path) {
       fail(`published research item missing required metadata: ${item.slug || '(unknown slug)'}`);
@@ -166,47 +214,6 @@ if (registry) {
   if (sitemap.includes('/research/')) fail('sitemap must not contain legacy /research/ URLs');
 }
 
-if (contact) {
-  const channels = Array.isArray(contact.channels) ? contact.channels : [];
-  const email = channels.find((item) => item && item.id === 'email' && item.enabled === true);
-  const wecom = channels.find((item) => item && item.id === 'wecom' && item.enabled === true);
-  if (!email || email.value !== 'hello@geogi.ai' || email.href !== 'mailto:hello@geogi.ai') {
-    fail('official email does not match the approved MiniProgram baseline');
-  }
-  if (!wecom || wecom.value !== 'GeoGi-Advisor') {
-    fail('official WeCom account does not match the approved MiniProgram baseline');
-  }
-  for (const id of ['wechat_official', 'xiaohongshu']) {
-    const channel = channels.find((item) => item && item.id === id);
-    if (!channel || channel.enabled !== true || channel.display !== true || channel.footer_display !== true) {
-      fail(`footer social channel is not fully enabled: ${id}`);
-      continue;
-    }
-    if (!channel.display_name || !channel.scan_text) fail(`footer social metadata missing: ${id}`);
-    if (!/^data:image\/webp;base64,/i.test(channel.qr_image || '')) fail(`footer social QR is not embedded as WebP data URI: ${id}`);
-  }
-}
-
-const navigation = exists('assets/js/navigation.js') ? read('assets/js/navigation.js') : '';
-if (navigation) {
-  for (const invariant of [
-    '京ICP备2026048011号-2',
-    'https://beian.miit.gov.cn/',
-    "fetch('/data/contact.json'",
-    'data-footer-socials',
-    'footer_display'
-  ]) {
-    if (!navigation.includes(invariant)) fail(`navigation/footer invariant missing: ${invariant}`);
-  }
-}
-
-let brandManifest;
-try { brandManifest = JSON.parse(read('assets/brand/manifest.json')); }
-catch (error) { fail(`invalid assets/brand/manifest.json: ${error.message}`); }
-if (brandManifest && (brandManifest.version !== '1.0.0' || brandManifest.status !== 'canonical')) {
-  fail('GeoGi Logo System manifest is not the frozen v1.0 canonical version');
-}
-
 const canonicalPages = ['index.html', 'insights/index.html'];
 if (registry && Array.isArray(registry.items)) {
   for (const item of registry.items.filter((x) => x && x.status === 'published')) {
@@ -227,7 +234,6 @@ for (const htmlFile of [...new Set(canonicalPages)]) {
   const html = read(htmlFile);
   if (/javascript:void\s*\(0\)/i.test(html)) fail(`javascript:void(0) found in ${htmlFile}`);
   if (/data:image\//i.test(html)) fail(`embedded base64/data image found in ${htmlFile}`);
-  if (html.includes('contact@geogi.cn')) fail(`deprecated contact email found in ${htmlFile}`);
   for (const legacy of ['geogi-logo-dark.png','geogi-logo-dark.svg','geogi-logo-mark-512.png','favicon-32.png','apple-touch-icon.png']) {
     if (html.includes(legacy)) fail(`legacy brand reference found in ${htmlFile}: ${legacy}`);
   }
@@ -266,4 +272,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log('Website QA passed: research publishing, routes, metadata, canonical brand bytes, contact baseline, footer QR channels, ICP filing, legacy redirects, sitemap and robots are consistent.');
+console.log('Website QA passed: research publishing, routes, metadata, canonical brand bytes, verified email contact, ICP filing, legacy redirects, sitemap and robots are consistent.');
