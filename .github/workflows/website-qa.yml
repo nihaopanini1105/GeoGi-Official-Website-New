@@ -27,6 +27,7 @@ jobs:
           node --check scripts/publish-research.js
           node --check assets/js/research-index.js
           node --check assets/js/contact.js
+          node --check assets/js/navigation.js
 
       - name: Run release QA
         run: node scripts/validate-site.js
