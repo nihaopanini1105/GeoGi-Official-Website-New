@@ -40,7 +40,7 @@ var _hmt = _hmt || [];
   if (!document.querySelector('link[data-footer-v2-styles]')) {
     const stylesheet = document.createElement('link');
     stylesheet.rel = 'stylesheet';
-    stylesheet.href = '/assets/css/footer-redesign.css?v=20260817-footer3';
+    stylesheet.href = '/assets/css/footer-redesign.css?v=20260817-footer4';
     stylesheet.setAttribute('data-footer-v2-styles', '');
     document.head.appendChild(stylesheet);
   }
@@ -49,9 +49,15 @@ var _hmt = _hmt || [];
   const oldContactSection = document.querySelector('#contact');
   if (miniSection) {
     document.body.classList.add('homepage-contact-merged');
+    if (oldContactSection) {
+      oldContactSection.id = 'contact-legacy';
+      oldContactSection.setAttribute('hidden', '');
+    }
+
     const miniCard = miniSection.querySelector('.miniprogram-card') || miniSection.querySelector('.wrap');
     if (miniCard && !miniCard.querySelector('[data-enterprise-contact-card]')) {
       const enterprise = document.createElement('aside');
+      enterprise.id = 'contact';
       enterprise.className = 'miniprogram-enterprise-card';
       enterprise.setAttribute('data-enterprise-contact-card', '');
       enterprise.innerHTML = `
@@ -71,7 +77,6 @@ var _hmt = _hmt || [];
         </div>`;
       miniCard.appendChild(enterprise);
     }
-    if (oldContactSection) oldContactSection.setAttribute('hidden', '');
   }
 
   const footer = document.querySelector('.site-footer');
