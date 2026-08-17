@@ -241,6 +241,12 @@ for (const htmlFile of [...new Set(canonicalPages)]) {
   if (!html.includes('assets/brand/geogi-app-icon.svg')) fail(`canonical app icon missing in ${htmlFile}`);
 
   const refs = [...html.matchAll(/(?:href|src)="([^"]+)"/gi)].map((match) => match[1]);
+  const navigationRef = refs.find((ref) => /(?:^|\/)assets\/js\/navigation\.js(?:\?|$)/.test(ref));
+  if (!navigationRef) {
+    fail(`shared navigation script missing in ${htmlFile}`);
+  } else if (!/[?&]v=[A-Za-z0-9._-]+(?:&|$)/.test(navigationRef)) {
+    fail(`shared navigation script must be cache-versioned in ${htmlFile}: ${navigationRef}`);
+  }
   for (const ref of refs) {
     const target = resolveLocal(htmlFile, ref);
     if (target && !exists(target)) fail(`broken local reference in ${htmlFile}: ${ref} -> ${target}`);
