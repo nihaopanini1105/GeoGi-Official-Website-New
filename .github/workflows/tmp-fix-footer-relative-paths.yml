@@ -1,0 +1,65 @@
+name: Temporary Footer Relative Path Fix
+
+on:
+  push:
+    branches:
+      - fix/static-contact-footer-hardening
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/static-contact-footer-hardening
+          fetch-depth: 0
+
+      - name: Fix insight page relative paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          configs = {
+              Path('insights/index.html'): ('../', 'index.html'),
+              Path('insights/what-is-geo-ai-search-era/index.html'): ('../../', '../index.html'),
+              Path('insights/what-is-geogi/index.html'): ('../../', '../index.html'),
+              Path('insights/why-ai-recommends-competitors/index.html'): ('../../', '../index.html'),
+          }
+
+          for page, (prefix, insights_href) in configs.items():
+              text = page.read_text(encoding='utf-8')
+              replacements = {
+                  '/assets/css/footer-redesign.css?v=20260817-footer6': f'{prefix}assets/css/footer-redesign.css?v=20260817-footer6',
+                  '/assets/brand/geogi-app-icon.svg': f'{prefix}assets/brand/geogi-app-icon.svg',
+                  '/assets/contact/geogi-wecom-code.svg': f'{prefix}assets/contact/geogi-wecom-code.svg',
+                  '/assets/contact/geogi-rednote-code.svg': f'{prefix}assets/contact/geogi-rednote-code.svg',
+                  '/assets/contact/geogi-official-account-code.svg': f'{prefix}assets/contact/geogi-official-account-code.svg',
+                  'href="/insights/"': f'href="{insights_href}"',
+              }
+              for old, new in replacements.items():
+                  text = text.replace(old, new)
+              page.write_text(text, encoding='utf-8')
+
+          for page, (prefix, insights_href) in configs.items():
+              text = page.read_text(encoding='utf-8')
+              assert f'{prefix}assets/css/footer-redesign.css?v=20260817-footer6' in text
+              assert f'{prefix}assets/contact/geogi-wecom-code.svg' in text
+              assert f'href="{insights_href}"' in text
+              assert '/assets/contact/' not in text
+              assert 'href="/insights/"' not in text
+          PY
+
+      - name: Commit relative path fixes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add insights
+          git commit -m "fix: use valid relative footer paths on insight pages"
+          git push origin HEAD:fix/static-contact-footer-hardening
