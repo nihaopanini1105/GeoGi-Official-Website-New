@@ -30,7 +30,7 @@ jobs:
 
           check_url "https://www.geogi.cn/"
           check_url "https://www.geogi.cn/insights/"
-          check_url "https://www.geogi.cn/assets/js/navigation.js?v=20260817-footer4"
+          check_url "https://www.geogi.cn/assets/js/navigation.js?v=20260817-footer5"
           check_url "https://www.geogi.cn/assets/brand/geogi-logo-horizontal-navy.svg"
           check_url "https://www.geogi.cn/assets/brand/geogi-miniprogram-code.svg"
 
