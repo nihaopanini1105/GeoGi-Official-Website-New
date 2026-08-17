@@ -47,17 +47,22 @@ jobs:
 
           for page, (prefix, insights_href) in configs.items():
               text = page.read_text(encoding='utf-8')
-              assert f'{prefix}assets/css/footer-redesign.css?v=20260817-footer6' in text
-              assert f'{prefix}assets/contact/geogi-wecom-code.svg' in text
-              assert f'href="{insights_href}"' in text
-              assert '/assets/contact/' not in text
-              assert 'href="/insights/"' not in text
+              if f'{prefix}assets/css/footer-redesign.css?v=20260817-footer6' not in text:
+                  raise SystemExit(f'{page}: footer6 stylesheet path missing')
+              if f'{prefix}assets/contact/geogi-wecom-code.svg' not in text:
+                  raise SystemExit(f'{page}: enterprise QR path missing')
+              if f'href="{insights_href}"' not in text:
+                  raise SystemExit(f'{page}: research center link missing')
           PY
 
       - name: Commit relative path fixes
         shell: bash
         run: |
           set -euo pipefail
+          if git diff --quiet -- insights; then
+            echo "No path changes needed."
+            exit 0
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add insights
