@@ -40,7 +40,7 @@ var _hmt = _hmt || [];
   if (!document.querySelector('link[data-footer-v2-styles]')) {
     const stylesheet = document.createElement('link');
     stylesheet.rel = 'stylesheet';
-    stylesheet.href = '/assets/css/footer-redesign.css?v=20260817-footer4';
+    stylesheet.href = '/assets/css/footer-redesign.css?v=20260817-footer5';
     stylesheet.setAttribute('data-footer-v2-styles', '');
     document.head.appendChild(stylesheet);
   }
@@ -49,6 +49,10 @@ var _hmt = _hmt || [];
   const oldContactSection = document.querySelector('#contact');
   if (miniSection) {
     document.body.classList.add('homepage-contact-merged');
+
+    const duplicateMiniCta = miniSection.querySelector('.miniprogram-copy .hero-actions');
+    if (duplicateMiniCta) duplicateMiniCta.remove();
+
     if (oldContactSection) {
       oldContactSection.id = 'contact-legacy';
       oldContactSection.setAttribute('hidden', '');
@@ -64,16 +68,16 @@ var _hmt = _hmt || [];
         <div class="miniprogram-enterprise-copy">
           <span class="miniprogram-enterprise-kicker">企业合作 / 深度诊断</span>
           <h3>需要更深入的 GEO 诊断？联系 GeoGi</h3>
-          <p>如果你需要品牌全景诊断、竞品分析或持续 GEO 优化，可以直接添加企业微信，或发送邮件联系我们。</p>
+          <p>品牌全景诊断、竞品分析或持续 GEO 优化，可直接添加企业微信，或发送邮件联系我们。</p>
           <div class="miniprogram-enterprise-actions">
             <a class="btn btn-primary" href="mailto:contact@geogi.cn">邮件联系 GeoGi</a>
             <span>contact@geogi.cn</span>
           </div>
         </div>
         <div class="miniprogram-enterprise-qr">
-          <img src="/assets/contact/geogi-wecom-code.svg" alt="GeoGi 企业微信二维码" width="124" height="124">
+          <img src="/assets/contact/geogi-wecom-code.svg" alt="GeoGi 企业微信二维码" width="96" height="96">
           <strong>企业微信</strong>
-          <span>扫码添加，沟通项目需求</span>
+          <span>扫码沟通项目需求</span>
         </div>`;
       miniCard.appendChild(enterprise);
     }
@@ -98,7 +102,7 @@ var _hmt = _hmt || [];
         <div class="footer-v2-grid" aria-label="GeoGi 联系方式">
           <section class="footer-v2-card" aria-labelledby="footer-wecom-title">
             <div class="footer-v2-card-copy"><h3 id="footer-wecom-title">企业微信</h3><p>商务咨询 / 项目沟通</p></div>
-            <img class="footer-v2-qr-image" src="/assets/contact/geogi-wecom-code.svg" alt="GeoGi 企业微信二维码" width="82" height="82">
+            <img class="footer-v2-qr-image" src="/assets/contact/geogi-wecom-code.svg" alt="GeoGi 企业微信二维码" width="74" height="74">
           </section>
 
           <section class="footer-v2-card email" aria-labelledby="footer-email-title">
@@ -108,12 +112,12 @@ var _hmt = _hmt || [];
 
           <section class="footer-v2-card" aria-labelledby="footer-red-title">
             <div class="footer-v2-card-copy"><h3 id="footer-red-title">小红书</h3><p>发现更多品牌洞察</p></div>
-            <img class="footer-v2-qr-image" src="/assets/contact/geogi-rednote-code.svg" alt="GeoGi 小红书二维码" width="82" height="82">
+            <img class="footer-v2-qr-image" src="/assets/contact/geogi-rednote-code.svg" alt="GeoGi 小红书二维码" width="74" height="74">
           </section>
 
           <section class="footer-v2-card" aria-labelledby="footer-account-title">
             <div class="footer-v2-card-copy"><h3 id="footer-account-title">公众号</h3><p>获取最新研究与动态</p></div>
-            <img class="footer-v2-qr-image" src="/assets/contact/geogi-official-account-code.svg" alt="GeoGi 公众号二维码" width="82" height="82">
+            <img class="footer-v2-qr-image" src="/assets/contact/geogi-official-account-code.svg" alt="GeoGi 公众号二维码" width="74" height="74">
           </section>
         </div>
       </div>
