@@ -40,7 +40,7 @@ var _hmt = _hmt || [];
   if (!document.querySelector('link[data-footer-v2-styles]')) {
     const stylesheet = document.createElement('link');
     stylesheet.rel = 'stylesheet';
-    stylesheet.href = '/assets/css/footer-redesign.css?v=20260817-footer5';
+    stylesheet.href = '/assets/css/footer-redesign.css?v=20260817-footer6';
     stylesheet.setAttribute('data-footer-v2-styles', '');
     document.head.appendChild(stylesheet);
   }
@@ -85,6 +85,9 @@ var _hmt = _hmt || [];
 
   const footer = document.querySelector('.site-footer');
   if (!footer) return;
+
+  // Final v2 footer is now static HTML. Keep this block only as a fallback for legacy pages.
+  if (footer.classList.contains('footer-contact-v2') && footer.querySelector('.footer-v2-grid')) return;
 
   footer.className = 'site-footer footer-contact-v2';
   footer.innerHTML = `
