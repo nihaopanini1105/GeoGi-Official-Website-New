@@ -1,0 +1,147 @@
+name: Temporary Static Footer Hardening
+
+on:
+  push:
+    branches:
+      - fix/static-contact-footer-hardening
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/static-contact-footer-hardening
+          fetch-depth: 0
+
+      - name: Staticize final contact and footer markup
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          pages = [
+              Path('index.html'),
+              Path('insights/index.html'),
+              Path('insights/what-is-geo-ai-search-era/index.html'),
+              Path('insights/what-is-geogi/index.html'),
+              Path('insights/why-ai-recommends-competitors/index.html'),
+          ]
+
+          footer = '''<footer class="site-footer footer-contact-v2">
+          <div class="wrap footer-v2-shell">
+            <div class="footer-v2-main">
+              <div class="footer-v2-brand">
+                <div class="footer-v2-brandline">
+                  <img class="footer-v2-logo" src="/assets/brand/geogi-app-icon.svg" alt="GeoGi" width="44" height="44">
+                  <span class="footer-v2-name">GeoGi</span>
+                </div>
+                <p class="footer-v2-tagline">让品牌在 AI 时代被看见、被理解、被选择。</p>
+                <p class="footer-v2-desc">品牌 AI 可见度诊断、竞品洞察与持续 GEO 优化。</p>
+              </div>
+              <div class="footer-v2-grid" aria-label="GeoGi 联系方式">
+                <section class="footer-v2-card" aria-labelledby="footer-wecom-title">
+                  <div class="footer-v2-card-copy"><h3 id="footer-wecom-title">企业微信</h3><p>商务咨询 / 项目沟通</p></div>
+                  <img class="footer-v2-qr-image" src="/assets/contact/geogi-wecom-code.svg" alt="GeoGi 企业微信二维码" width="74" height="74">
+                </section>
+                <section class="footer-v2-card email" aria-labelledby="footer-email-title">
+                  <div class="footer-v2-card-copy"><h3 id="footer-email-title">联系邮箱</h3><p>品牌合作与项目咨询</p></div>
+                  <div class="footer-v2-email-area"><a class="footer-v2-email" href="mailto:contact@geogi.cn">contact@geogi.cn</a><a class="footer-v2-email-button" href="mailto:contact@geogi.cn">发送邮件</a></div>
+                </section>
+                <section class="footer-v2-card" aria-labelledby="footer-red-title">
+                  <div class="footer-v2-card-copy"><h3 id="footer-red-title">小红书</h3><p>发现更多品牌洞察</p></div>
+                  <img class="footer-v2-qr-image" src="/assets/contact/geogi-rednote-code.svg" alt="GeoGi 小红书二维码" width="74" height="74">
+                </section>
+                <section class="footer-v2-card" aria-labelledby="footer-account-title">
+                  <div class="footer-v2-card-copy"><h3 id="footer-account-title">公众号</h3><p>获取最新研究与动态</p></div>
+                  <img class="footer-v2-qr-image" src="/assets/contact/geogi-official-account-code.svg" alt="GeoGi 公众号二维码" width="74" height="74">
+                </section>
+              </div>
+            </div>
+            <div class="footer-v2-bottom">
+              <div class="footer-v2-bottom-left"><span>© 2026 GeoGi 几何智引</span><a href="/insights/">GeoGi 研究中心</a></div>
+              <a data-icp-filing href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer nofollow">京ICP备2026048011号-2</a>
+            </div>
+          </div>
+          </footer>'''
+
+          homepage_miniprogram = '''<section id="miniprogram" class="miniprogram-section"><div class="wrap"><div class="miniprogram-card">
+          <div class="miniprogram-copy"><span class="eyebrow"><span class="dot"></span>GeoGi 小程序</span><h2>想先快速体验？直接进入 GeoGi 小程序</h2><p>微信扫码进入 GeoGi 小程序，快速开始品牌 AI 可见度初步诊断。适合品牌、市场和增长团队做前期自查、内部沟通与正式深度诊断前的初步判断。</p><div class="miniprogram-points"><span>品牌基础自查</span><span>AI 可见度初步诊断</span><span>前期判断与内部沟通</span></div></div>
+          <div class="miniprogram-qr-card"><img class="miniprogram-qr" src="assets/brand/geogi-miniprogram-code.svg" alt="GeoGi 微信小程序码"><strong>微信扫码进入 GeoGi 小程序</strong><span>快速开始品牌 AI 可见度初步诊断</span></div>
+          <aside id="contact" class="miniprogram-enterprise-card" data-enterprise-contact-card>
+            <div class="miniprogram-enterprise-copy">
+              <span class="miniprogram-enterprise-kicker">企业合作 / 深度诊断</span>
+              <h3>需要更深入的 GEO 诊断？联系 GeoGi</h3>
+              <p>品牌全景诊断、竞品分析或持续 GEO 优化，可直接添加企业微信，或发送邮件联系我们。</p>
+              <div class="miniprogram-enterprise-actions">
+                <a class="btn btn-primary" href="mailto:contact@geogi.cn">邮件联系 GeoGi</a>
+                <span>contact@geogi.cn</span>
+              </div>
+            </div>
+            <div class="miniprogram-enterprise-qr">
+              <img src="/assets/contact/geogi-wecom-code.svg" alt="GeoGi 企业微信二维码" width="96" height="96">
+              <strong>企业微信</strong>
+              <span>扫码沟通项目需求</span>
+            </div>
+          </aside>
+          </div></div></section>'''
+
+          for page in pages:
+              text = page.read_text(encoding='utf-8')
+
+              # Make the final footer CSS part of the initial HTML render.
+              if 'footer-redesign.css?v=20260817-footer6' not in text:
+                  text = text.replace('</head>', '<link rel="stylesheet" href="/assets/css/footer-redesign.css?v=20260817-footer6">\n</head>', 1)
+              text = text.replace('navigation.js?v=20260817-footer5', 'navigation.js?v=20260817-footer6')
+
+              # Replace every legacy static footer with the final v2 markup.
+              text, footer_count = re.subn(r'<footer class="site-footer(?: footer-contact-v2)?">.*?</footer>', footer, text, count=1, flags=re.S)
+              if footer_count != 1:
+                  raise SystemExit(f'{page}: expected exactly one footer, got {footer_count}')
+
+              if page == Path('index.html'):
+                  text, mini_count = re.subn(r'<section id="miniprogram" class="miniprogram-section">.*?</section>', homepage_miniprogram, text, count=1, flags=re.S)
+                  if mini_count != 1:
+                      raise SystemExit(f'index.html: expected one miniprogram section, got {mini_count}')
+                  text, old_contact_count = re.subn(r'\n?<section id="contact"><div class="wrap"><div class="contact-card">.*?</section>', '', text, count=1, flags=re.S)
+                  if old_contact_count != 1:
+                      raise SystemExit(f'index.html: expected one legacy contact section, got {old_contact_count}')
+
+              page.write_text(text, encoding='utf-8')
+
+          nav_path = Path('assets/js/navigation.js')
+          nav = nav_path.read_text(encoding='utf-8')
+          nav = nav.replace('/assets/css/footer-redesign.css?v=20260817-footer5', '/assets/css/footer-redesign.css?v=20260817-footer6')
+          nav = nav.replace("  const footer = document.querySelector('.site-footer');\n  if (!footer) return;\n\n  footer.className = 'site-footer footer-contact-v2';", "  const footer = document.querySelector('.site-footer');\n  if (!footer) return;\n\n  // Final v2 footer is now static HTML. Keep this block only as a fallback for legacy pages.\n  if (footer.classList.contains('footer-contact-v2') && footer.querySelector('.footer-v2-grid')) return;\n\n  footer.className = 'site-footer footer-contact-v2';")
+          nav_path.write_text(nav, encoding='utf-8')
+
+          # Release assertions.
+          for page in pages:
+              text = page.read_text(encoding='utf-8')
+              assert 'footer-redesign.css?v=20260817-footer6' in text, page
+              assert 'navigation.js?v=20260817-footer6' in text, page
+              assert 'footer-contact-v2' in text, page
+              assert 'contact@geogi.cn' in text, page
+              assert 'geogi-wecom-code.svg' in text, page
+              assert 'footer-wrap' not in text, page
+          index = Path('index.html').read_text(encoding='utf-8')
+          assert index.count('id="contact"') == 1
+          assert 'data-enterprise-contact-card' in index
+          assert '<section id="contact">' not in index
+          assert "footer.classList.contains('footer-contact-v2')" in nav_path.read_text(encoding='utf-8')
+          PY
+
+      - name: Commit static production markup
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html insights assets/js/navigation.js
+          git commit -m "fix: staticize contact hub and final footer"
+          git push origin HEAD:fix/static-contact-footer-hardening
