@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "updated": "2026-08-18",
+  "target_library_size": 25,
+  "status": "complete-core-library",
+  "clusters": [
+    {"category":"GEO 基础研究","goal":"建立 GEO、SEO/AEO、AI 搜索与品牌可见度的基础认知入口","slugs":["what-is-geo-ai-search-era","seo-vs-geo","ai-search-brand-choice","geo-aeo-seo-differences","ai-mention-citation-recommendation"]},
+    {"category":"AI 平台研究","goal":"建立中国五个平台的公开可观察研究框架与跨平台比较边界","slugs":["china-ai-platforms-brand-visibility","doubao-brand-visibility-observation","deepseek-brand-visibility-observation","tencent-yuanbao-brand-visibility-observation","qianwen-brand-visibility-observation","kimi-brand-visibility-observation"]},
+    {"category":"GeoGi 方法论","goal":"沉淀 GeoGi 在问题集、指标、品牌事实、证据、竞品与复测上的第一方方法资产","slugs":["what-is-geogi","why-ai-recommends-competitors","ai-brand-information-consistency","brand-ai-visibility-metrics","geo-query-set-design","geo-retest-reproducibility","brand-fact-source-of-truth","geo-evidence-source-governance"]},
+    {"category":"行业研究","goal":"把方法落到旅游与医美的真实决策、交易事实和高信任信息场景","slugs":["travel-industry-geo-guide","medical-aesthetics-geo-guide","travel-agency-geo-playbook","hotel-geo-playbook","medical-aesthetics-trust-facts"]},
+    {"category":"年度研究报告","goal":"形成年度趋势、证据边界与管理层判断资产","slugs":["2026-china-brand-ai-visibility-report"]}
+  ],
+  "completion_rules": [
+    "所有核心主题必须有独立搜索意图和独有结论",
+    "平台研究必须使用公开官方资料或可观察界面，不推断内部排序规则",
+    "方法论必须能形成 GeoGi 第一方定义、检查表或执行框架",
+    "行业研究必须包含行业特定风险，不只替换行业名",
+    "新增页面必须能够与至少两个既有页面形成自然内链"
+  ]
+}
