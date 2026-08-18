@@ -41,17 +41,45 @@ jobs:
         run: |
           set -euo pipefail
 
+          fetch_with_retry() {
+            url="$1"
+            out="$2"
+            attempts=12
+            delay=10
+            for attempt in $(seq 1 "$attempts"); do
+              echo "Fetching $url (attempt $attempt/$attempts)"
+              if curl --fail --silent --show-error --location \
+                --connect-timeout 10 --max-time 30 \
+                --retry 2 --retry-delay 2 --retry-all-errors \
+                --output "$out" "$url"; then
+                return 0
+              fi
+              if [ "$attempt" -lt "$attempts" ]; then
+                sleep "$delay"
+              fi
+            done
+            echo "Failed to fetch $url after $attempts attempts" >&2
+            return 1
+          }
+
           check_url() {
             url="$1"
-            echo "Checking $url"
-            curl --fail --silent --show-error --location "$url" >/dev/null
+            tmp="$(mktemp)"
+            fetch_with_retry "$url" "$tmp"
+            rm -f "$tmp"
           }
 
           check_contains() {
             url="$1"
             needle="$2"
-            echo "Checking content on $url"
-            curl --fail --silent --show-error --location "$url" | grep -Fq "$needle"
+            tmp="$(mktemp)"
+            fetch_with_retry "$url" "$tmp"
+            if ! grep -Fq -- "$needle" "$tmp"; then
+              echo "Expected content not found on $url: $needle" >&2
+              rm -f "$tmp"
+              return 1
+            fi
+            rm -f "$tmp"
           }
 
           check_url "https://www.geogi.cn/"
