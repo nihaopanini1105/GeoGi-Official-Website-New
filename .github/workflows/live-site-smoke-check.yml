@@ -28,11 +28,28 @@ jobs:
             curl --fail --silent --show-error --location "$url" >/dev/null
           }
 
+          check_contains() {
+            url="$1"
+            needle="$2"
+            echo "Checking content on $url"
+            curl --fail --silent --show-error --location "$url" | grep -Fq "$needle"
+          }
+
           check_url "https://www.geogi.cn/"
           check_url "https://www.geogi.cn/insights/"
+          check_url "https://www.geogi.cn/insights/what-is-geo-ai-search-era/"
+          check_url "https://www.geogi.cn/insights/what-is-geogi/"
+          check_url "https://www.geogi.cn/insights/why-ai-recommends-competitors/"
           check_url "https://www.geogi.cn/assets/js/navigation.js?v=20260817-footer6"
           check_url "https://www.geogi.cn/assets/css/footer-redesign.css?v=20260817-footer6"
+          check_url "https://www.geogi.cn/assets/css/research-article-refresh.css?v=20260818-r1"
           check_url "https://www.geogi.cn/assets/brand/geogi-logo-horizontal-navy.svg"
           check_url "https://www.geogi.cn/assets/brand/geogi-miniprogram-code.svg"
+
+          check_contains "https://www.geogi.cn/insights/" "更新 2026-08-18"
+          check_contains "https://www.geogi.cn/insights/what-is-geo-ai-search-era/" "更新：2026-08-18"
+          check_contains "https://www.geogi.cn/insights/what-is-geogi/" "更新：2026-08-18"
+          check_contains "https://www.geogi.cn/insights/why-ai-recommends-competitors/" "更新：2026-08-18"
+          check_contains "https://www.geogi.cn/insights/why-ai-recommends-competitors/" "GeoGi 方法论"
 
           echo "Live site smoke check passed."
