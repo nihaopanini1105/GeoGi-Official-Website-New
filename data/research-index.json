@@ -43,6 +43,90 @@
       "updated_at": "2026-08-18",
       "canonical_path": "/insights/why-ai-recommends-competitors/",
       "featured": true
+    },
+    {
+      "slug": "seo-vs-geo",
+      "title": "SEO 之后，为什么品牌还需要关注 GEO？",
+      "description": "解释 SEO 与 GEO 的关系，以及企业为什么需要同时管理搜索入口与生成式答案中的品牌出现、准确性和选择依据。",
+      "category": "GEO 基础研究",
+      "tags": ["SEO", "GEO", "AI 搜索"],
+      "status": "published",
+      "published_at": "2026-08-18",
+      "updated_at": "2026-08-18",
+      "canonical_path": "/insights/seo-vs-geo/",
+      "featured": false
+    },
+    {
+      "slug": "ai-search-brand-choice",
+      "title": "AI 搜索时代，品牌为什么正在失去“被选择”的机会？",
+      "description": "从候选集、事实准确性、场景相关性与可信证据理解 AI 搜索如何把品牌竞争提前到用户访问官网之前。",
+      "category": "GEO 基础研究",
+      "tags": ["AI 搜索", "品牌选择", "AI 可见度"],
+      "status": "published",
+      "published_at": "2026-08-18",
+      "updated_at": "2026-08-18",
+      "canonical_path": "/insights/ai-search-brand-choice/",
+      "featured": false
+    },
+    {
+      "slug": "china-ai-platforms-brand-visibility",
+      "title": "豆包、DeepSeek、元宝、通义、Kimi：品牌为什么需要多平台观察？",
+      "description": "面向中国市场说明品牌为什么不能只看单一 AI 平台，以及如何用同题、多平台、可复核的方式观察品牌表现。",
+      "category": "AI 平台研究",
+      "tags": ["豆包", "DeepSeek", "AI 平台", "AI 可见度"],
+      "status": "published",
+      "published_at": "2026-08-18",
+      "updated_at": "2026-08-18",
+      "canonical_path": "/insights/china-ai-platforms-brand-visibility/",
+      "featured": true
+    },
+    {
+      "slug": "ai-brand-information-consistency",
+      "title": "AI 为什么会理解错一个品牌？从品牌事实到公开信息一致性",
+      "description": "分析主体关系、产品版本、价格地区、旧页面与第三方资料冲突如何造成品牌错误理解，并给出一致性治理框架。",
+      "category": "GeoGi 方法论",
+      "tags": ["品牌事实", "信息一致性", "AI 错误信息"],
+      "status": "published",
+      "published_at": "2026-08-18",
+      "updated_at": "2026-08-18",
+      "canonical_path": "/insights/ai-brand-information-consistency/",
+      "featured": false
+    },
+    {
+      "slug": "travel-industry-geo-guide",
+      "title": "旅游行业 GEO 指南：当游客开始让 AI 帮他们选择目的地与服务商",
+      "description": "面向旅行社、酒店、机票与旅游供给品牌，梳理目的地发现、方案比较、预算、履约与风险核验中的 GEO 信息建设重点。",
+      "category": "行业研究",
+      "tags": ["旅游", "旅行社", "酒店", "GEO"],
+      "status": "published",
+      "published_at": "2026-08-18",
+      "updated_at": "2026-08-18",
+      "canonical_path": "/insights/travel-industry-geo-guide/",
+      "featured": true
+    },
+    {
+      "slug": "medical-aesthetics-geo-guide",
+      "title": "医美行业 GEO 指南：当用户开始向 AI 咨询机构、项目与风险",
+      "description": "面向医美机构与品牌，重点讨论机构主体、资质、医生、项目边界、风险说明和公开信息一致性等高信任 GEO 问题。",
+      "category": "行业研究",
+      "tags": ["医美", "医疗健康", "信息准确性", "GEO"],
+      "status": "published",
+      "published_at": "2026-08-18",
+      "updated_at": "2026-08-18",
+      "canonical_path": "/insights/medical-aesthetics-geo-guide/",
+      "featured": true
+    },
+    {
+      "slug": "2026-china-brand-ai-visibility-report",
+      "title": "2026 中国品牌 AI 可见度研究报告：从被搜索到被 AI 理解与选择",
+      "description": "结合公开权威资料与 GeoGi 品牌诊断实践，总结生成式 AI 用户增长、搜索入口变化、多平台观察、信息一致性与行业 GEO 的长期趋势。",
+      "category": "年度研究报告",
+      "tags": ["2026", "中国品牌", "AI 可见度", "研究报告"],
+      "status": "published",
+      "published_at": "2026-08-18",
+      "updated_at": "2026-08-18",
+      "canonical_path": "/insights/2026-china-brand-ai-visibility-report/",
+      "featured": true
     }
   ]
 }
