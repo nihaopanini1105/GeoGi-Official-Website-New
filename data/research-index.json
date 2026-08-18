@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-17",
+  "updated": "2026-08-18",
   "categories": [
     "GEO 基础研究",
     "AI 平台研究",
@@ -11,36 +11,36 @@
     {
       "slug": "what-is-geo-ai-search-era",
       "title": "什么是 GEO？从 SEO 到 AI 推荐时代，品牌如何建立新的增长入口",
-      "description": "理解 GEO 为什么出现，以及品牌为什么需要关注 AI 搜索、生成式答案和新的品牌可见度入口。",
+      "description": "系统理解 GEO、SEO 与生成式答案的关系，以及品牌为什么需要管理出现、准确性、场景相关性、可信证据与竞品差距。",
       "category": "GEO 基础研究",
       "tags": ["GEO", "SEO", "AI 可见度"],
       "status": "published",
       "published_at": "2026-07-14",
-      "updated_at": "2026-08-17",
+      "updated_at": "2026-08-18",
       "canonical_path": "/insights/what-is-geo-ai-search-era/",
       "featured": true
     },
     {
       "slug": "what-is-geogi",
       "title": "GeoGi 是什么？品牌 AI 可见度诊断与 GEO 优化方法",
-      "description": "了解 GeoGi 如何帮助企业诊断 AI 可见度、分析竞品差距，并推进品牌信息与内容优化。",
+      "description": "从检测、诊断、优化到复测，了解 GeoGi 如何帮助中国品牌建立可复核的 AI 可见度与 GEO 工作闭环。",
       "category": "GeoGi 方法论",
       "tags": ["GeoGi", "AI 可见度", "GEO 优化"],
       "status": "published",
       "published_at": "2026-08-12",
-      "updated_at": "2026-08-17",
+      "updated_at": "2026-08-18",
       "canonical_path": "/insights/what-is-geogi/",
       "featured": true
     },
     {
       "slug": "why-ai-recommends-competitors",
       "title": "为什么 AI 推荐了你的竞品，却没有推荐你？",
-      "description": "从用户场景、品牌事实、内容表达、可信证据和公开信息分析竞品进入 AI 答案的常见原因。",
+      "description": "从品牌事实、用户场景、可信证据与公开信息一致性，诊断竞品为什么更容易进入 AI 答案，并给出可复测的优化顺序。",
       "category": "GeoGi 方法论",
       "tags": ["竞品", "品牌诊断", "AI 可见度"],
       "status": "published",
       "published_at": "2026-08-12",
-      "updated_at": "2026-08-17",
+      "updated_at": "2026-08-18",
       "canonical_path": "/insights/why-ai-recommends-competitors/",
       "featured": true
     }
