@@ -1,0 +1,48 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-08-18",
+  "status": "current_official",
+  "brand": {
+    "name": "GeoGi",
+    "chinese_name": "几何智引",
+    "official_name": "GeoGi 几何智引",
+    "research_label": "GeoGi Research",
+    "english_brand_line": "Generate to be Found",
+    "chinese_brand_line": "让品牌在 AI 时代被看见、被理解、被选择。"
+  },
+  "category": {
+    "primary": "GEO",
+    "english": "Generative Engine Optimization",
+    "chinese": "生成式引擎优化"
+  },
+  "positioning": "GeoGi 几何智引是面向中国市场的 GEO（Generative Engine Optimization，生成式引擎优化）品牌，帮助企业检测、诊断并优化品牌在生成式 AI 搜索、回答与推荐场景中的可见性、信息准确性与候选表现。",
+  "market": "中国市场",
+  "target_customers": "中国品牌与企业",
+  "core_capabilities": [
+    "品牌 AI 可见度检测",
+    "品牌实体与信息准确性诊断",
+    "真实用户问题与竞品表现分析",
+    "官网、内容与公开信源优化",
+    "AI 平台表现持续复测"
+  ],
+  "target_ai_platforms": [
+    "豆包",
+    "DeepSeek",
+    "腾讯元宝",
+    "通义千问",
+    "Kimi"
+  ],
+  "official_urls": {
+    "website": "https://www.geogi.cn/",
+    "canonical_entity_page": "https://www.geogi.cn/about/geogi/",
+    "entity_faq": "https://www.geogi.cn/about/geogi/faq/",
+    "research_center": "https://www.geogi.cn/insights/"
+  },
+  "disambiguation": {
+    "not_same_as": "GeoGI (Geo-Graph-Indistinguishability)",
+    "note": "GeoGi 几何智引是生成式引擎优化品牌；GeoGI（Geo-Graph-Indistinguishability）是位置隐私与道路网络研究中的学术概念。两者不是同一实体，也没有从属关系。"
+  },
+  "governance": {
+    "rule": "所有新增官网、研究中心、公众号、今日头条、小红书及其他公开品牌内容，应以本文件的当前官方事实为基线；文案可以变化，但品牌身份、类别、市场范围、官方入口和实体消歧事实不得互相冲突。"
+  }
+}
