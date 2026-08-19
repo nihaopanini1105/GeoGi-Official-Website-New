@@ -82,38 +82,65 @@ jobs:
             rm -f "$tmp"
           }
 
+          slugs=(
+            what-is-geo-ai-search-era
+            what-is-geogi
+            why-ai-recommends-competitors
+            seo-vs-geo
+            ai-search-brand-choice
+            china-ai-platforms-brand-visibility
+            ai-brand-information-consistency
+            travel-industry-geo-guide
+            medical-aesthetics-geo-guide
+            2026-china-brand-ai-visibility-report
+            geo-aeo-seo-differences
+            ai-mention-citation-recommendation
+            doubao-brand-visibility-observation
+            deepseek-brand-visibility-observation
+            tencent-yuanbao-brand-visibility-observation
+            qianwen-brand-visibility-observation
+            kimi-brand-visibility-observation
+            brand-ai-visibility-metrics
+            geo-query-set-design
+            geo-retest-reproducibility
+            brand-fact-source-of-truth
+            geo-evidence-source-governance
+            travel-agency-geo-playbook
+            hotel-geo-playbook
+            medical-aesthetics-trust-facts
+          )
+
           check_url "https://www.geogi.cn/"
           check_url "https://www.geogi.cn/insights/"
-          check_url "https://www.geogi.cn/insights/what-is-geo-ai-search-era/"
-          check_url "https://www.geogi.cn/insights/what-is-geogi/"
-          check_url "https://www.geogi.cn/insights/why-ai-recommends-competitors/"
-          check_url "https://www.geogi.cn/insights/seo-vs-geo/"
-          check_url "https://www.geogi.cn/insights/ai-search-brand-choice/"
-          check_url "https://www.geogi.cn/insights/china-ai-platforms-brand-visibility/"
-          check_url "https://www.geogi.cn/insights/ai-brand-information-consistency/"
-          check_url "https://www.geogi.cn/insights/travel-industry-geo-guide/"
-          check_url "https://www.geogi.cn/insights/medical-aesthetics-geo-guide/"
-          check_url "https://www.geogi.cn/insights/2026-china-brand-ai-visibility-report/"
+          check_url "https://www.geogi.cn/insights/library/"
           check_url "https://www.geogi.cn/sitemap.xml"
+          check_url "https://www.geogi.cn/data/research-index.json"
+          check_url "https://www.geogi.cn/data/research-authority-library.json"
           check_url "https://www.geogi.cn/assets/js/navigation.js?v=20260817-footer6"
+          check_url "https://www.geogi.cn/assets/js/research-index.js?v=20260818-v1"
+          check_url "https://www.geogi.cn/assets/js/research-authority.js?v=20260819-r2"
           check_url "https://www.geogi.cn/assets/css/footer-redesign.css?v=20260817-footer6"
           check_url "https://www.geogi.cn/assets/css/research-article-refresh.css?v=20260818-r1"
+          check_url "https://www.geogi.cn/assets/css/research-authority.css?v=20260819-r1"
           check_url "https://www.geogi.cn/assets/brand/geogi-logo-horizontal-navy.svg"
-          check_url "https://www.geogi.cn/assets/brand/geogi-miniprogram-code.svg"
+          check_url "https://www.geogi.cn/assets/contact/geogi-wecom-code.svg"
+          check_url "https://www.geogi.cn/assets/contact/geogi-rednote-code.svg"
+          check_url "https://www.geogi.cn/assets/contact/geogi-official-account-code.svg"
 
-          check_contains "https://www.geogi.cn/insights/" "2026 中国品牌 AI 可见度研究报告"
-          check_contains "https://www.geogi.cn/insights/" "豆包、DeepSeek、元宝、通义、Kimi"
-          check_contains "https://www.geogi.cn/insights/what-is-geo-ai-search-era/" "更新：2026-08-18"
-          check_contains "https://www.geogi.cn/insights/what-is-geogi/" "更新：2026-08-18"
-          check_contains "https://www.geogi.cn/insights/why-ai-recommends-competitors/" "GeoGi 方法论"
-          check_contains "https://www.geogi.cn/insights/seo-vs-geo/" "SEO 之后，为什么品牌还需要关注 GEO？"
-          check_contains "https://www.geogi.cn/insights/ai-search-brand-choice/" "AI 搜索时代，品牌为什么正在失去"
-          check_contains "https://www.geogi.cn/insights/china-ai-platforms-brand-visibility/" "品牌为什么需要多平台观察"
-          check_contains "https://www.geogi.cn/insights/ai-brand-information-consistency/" "AI 为什么会理解错一个品牌"
-          check_contains "https://www.geogi.cn/insights/travel-industry-geo-guide/" "旅游行业 GEO 指南"
-          check_contains "https://www.geogi.cn/insights/medical-aesthetics-geo-guide/" "医美行业 GEO 指南"
-          check_contains "https://www.geogi.cn/insights/2026-china-brand-ai-visibility-report/" "2026 中国品牌 AI 可见度研究报告"
-          check_contains "https://www.geogi.cn/sitemap.xml" "/insights/2026-china-brand-ai-visibility-report/"
+          for slug in "${slugs[@]}"; do
+            check_url "https://www.geogi.cn/insights/$slug/"
+            check_contains "https://www.geogi.cn/sitemap.xml" "/insights/$slug/"
+          done
+
+          check_contains "https://www.geogi.cn/insights/" "25 篇核心研究"
+          check_contains "https://www.geogi.cn/insights/" "查看权威资料库"
+          check_contains "https://www.geogi.cn/insights/" "第57次《中国互联网络发展状况统计报告》"
+          check_contains "https://www.geogi.cn/insights/library/" "研究报告与权威资料"
+          check_contains "https://www.geogi.cn/insights/library/" "原机构署名"
+          check_contains "https://www.geogi.cn/insights/library/" "GEO: Generative Engine Optimization"
+          check_contains "https://www.geogi.cn/insights/library/" "中国信息通信研究院"
+          check_contains "https://www.geogi.cn/sitemap.xml" "/insights/library/"
+          check_contains "https://www.geogi.cn/data/research-authority-library.json" '"review_cycle": "90d"'
 
           echo "Live site smoke check passed."
 
