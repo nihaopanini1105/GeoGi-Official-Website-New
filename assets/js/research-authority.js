@@ -28,7 +28,7 @@
     ].join('');
   };
 
-  fetch('../data/research-authority-library.json', { cache: 'no-store' })
+  fetch('/data/research-authority-library.json', { cache: 'no-store' })
     .then(function (response) {
       if (!response.ok) throw new Error('authority library unavailable');
       return response.json();
