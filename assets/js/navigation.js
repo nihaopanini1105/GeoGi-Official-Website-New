@@ -7,6 +7,67 @@ var _hmt = _hmt || [];
 })();
 
 (function () {
+  // GEOGI_MINIPROGRAM_EMBED_V1
+  const embedParams =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const isMiniProgramEmbed =
+    embedParams.get('embed') ===
+    'miniprogram';
+
+  if (
+    isMiniProgramEmbed &&
+    document.body.classList.contains(
+      'article-page'
+    )
+  ) {
+    document.body.classList.add(
+      'geogi-miniprogram-embed'
+    );
+
+    document
+      .querySelectorAll('a[href]')
+      .forEach(function (link) {
+        const rawHref =
+          link.getAttribute('href');
+
+        if (!rawHref) return;
+
+        try {
+          const url =
+            new URL(
+              rawHref,
+              window.location.href
+            );
+
+          const isInternalInsight =
+            url.origin ===
+              window.location.origin &&
+            url.pathname.startsWith(
+              '/insights/'
+            );
+
+          if (!isInternalInsight) {
+            return;
+          }
+
+          url.searchParams.set(
+            'embed',
+            'miniprogram'
+          );
+
+          link.href =
+            url.pathname +
+            url.search +
+            url.hash;
+        } catch (error) {
+          // Ignore unsupported or malformed href values.
+        }
+      });
+  }
+
   const toggle = document.querySelector('.mobile-nav-toggle');
   const nav = document.querySelector('.site-header .nav');
 

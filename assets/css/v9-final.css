@@ -3,3 +3,46 @@
 .footer-brand{display:inline-flex;align-items:center}.footer-brand-lockup{width:120px;height:auto;object-fit:contain}@media(max-width:620px){.footer-brand-lockup{width:112px}}
 
 .site-footer{padding:28px 0;background:#f8fbff;border-top:1px solid rgba(12,31,74,.08)}.site-footer .footer-wrap{padding-top:0;border-top:0;display:grid;grid-template-columns:minmax(220px,1.1fr) minmax(280px,1fr) minmax(220px,.8fr);align-items:center;gap:28px}.footer-brand-group{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0}.footer-tagline{margin:0;color:#6c7ea5;font-size:13px;line-height:1.65}.footer-meta{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;color:#6c7ea5;font-size:13px;line-height:1.6;text-align:center}.footer-meta a{color:#50658f;transition:color .2s ease}.footer-meta a:hover,.footer-icp:hover{color:#147cff}.footer-filing{display:flex;justify-content:flex-end}.footer-icp{color:#6c7ea5;font-size:13px;line-height:1.6;white-space:nowrap;transition:color .2s ease}@media(max-width:900px){.site-footer .footer-wrap{grid-template-columns:1fr;align-items:start;gap:14px}.footer-meta{justify-content:flex-start;text-align:left;gap:10px 20px}.footer-filing{justify-content:flex-start}}@media(max-width:620px){.site-footer{padding:24px 0 30px}.site-footer .footer-wrap{gap:12px}.footer-tagline,.footer-meta,.footer-icp{font-size:12px}.footer-meta{flex-direction:column;align-items:flex-start;gap:6px}}
+
+
+/* =========================================================
+ * GEOGI_MINIPROGRAM_EMBED_V1
+ *
+ * Article pages opened inside the GeoGi WeChat MiniProgram
+ * keep the official website article design, while removing
+ * duplicate website navigation/contact chrome.
+ * ========================================================= */
+
+.article-page.geogi-miniprogram-embed .site-header,
+.article-page.geogi-miniprogram-embed .breadcrumbs,
+.article-page.geogi-miniprogram-embed .site-footer {
+  display: none !important;
+}
+
+.article-page.geogi-miniprogram-embed .article-header {
+  padding-top: 26px;
+}
+
+.article-page.geogi-miniprogram-embed .article-body {
+  padding-bottom: 32px;
+}
+
+/*
+ * The MiniProgram already owns the service/diagnosis journey.
+ * Do not expose website diagnosis CTAs inside web-view.
+ */
+.article-page.geogi-miniprogram-embed
+.article-content
+a.btn[href*="#diagnosis"] {
+  display: none !important;
+}
+
+@media(max-width:620px) {
+  .article-page.geogi-miniprogram-embed .article-header {
+    padding-top: 22px;
+  }
+
+  .article-page.geogi-miniprogram-embed .article-body {
+    padding-bottom: 24px;
+  }
+}
