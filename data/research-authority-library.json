@@ -1,8 +1,15 @@
 {
-  "version": 1,
+  "version": 2,
   "updated": "2026-08-19",
-  "positioning": "GeoGi 原创研究与外部权威研究明确分层。外部资料保持原机构署名并直接链接官方发布平台，GeoGi 仅提供与品牌 GEO 相关的阅读提示，不把外部结论包装成 GeoGi 自有研究。",
+  "positioning": "GeoGi 原创研究与外部权威研究明确分层。外部资料保持原机构署名并直接链接官方发布平台；GeoGi 只提供与品牌 GEO 相关的阅读提示，不把外部结论、数据或研究成果包装成 GeoGi 自有研究。",
   "types": ["权威机构报告", "平台官方资料", "学术研究"],
+  "governance": {
+    "external_link_rule": "优先链接原机构官网、平台官方文档或论文原始页面。",
+    "attribution_rule": "标题、机构、日期与研究结论均保持来源归属；GeoGi 解读必须与原始结论分开展示。",
+    "evidence_rule": "宏观数据优先使用政府、国家级研究机构；平台能力优先使用平台官方文档；GEO 方法论争议同时保留支持性研究与批判性研究。",
+    "review_cycle": "90d",
+    "last_verified": "2026-08-19"
+  },
   "items": [
     {
       "id": "cnnic-internet-57",
@@ -11,7 +18,7 @@
       "title": "第57次《中国互联网络发展状况统计报告》",
       "published_at": "2026-02-05",
       "official_url": "https://www.cnnic.net.cn/n4/2026/0304/c88-11549.html",
-      "summary": "记录中国互联网用户、数字应用与生成式人工智能应用的最新发展情况。",
+      "summary": "记录 2025 年中国互联网发展、网民规模、数字消费与生成式人工智能应用的最新总体情况。",
       "geo_relevance": "用于理解中国 AI 用户规模、互联网使用环境与品牌数字触点变化，是判断 GEO 市场背景的重要基础资料。"
     },
     {
@@ -21,8 +28,8 @@
       "title": "《生成式人工智能应用发展报告（2025）》",
       "published_at": "2025-10-23",
       "official_url": "https://www.cnnic.net.cn/n4/2025/1021/c88-11391.html",
-      "summary": "聚焦中国生成式人工智能用户使用、产业应用与政策发展。",
-      "geo_relevance": "报告显示智能搜索已成为生成式 AI 的重要应用场景，可用于判断品牌为什么需要关注国产大模型中的信息可见度。"
+      "summary": "聚焦中国生成式人工智能用户规模、使用场景、产业应用与政策发展。",
+      "geo_relevance": "用于判断生成式 AI 从工具走向大众信息入口后，品牌为什么需要关注国产大模型中的可见度与事实准确性。"
     },
     {
       "id": "caict-ai-industry-2025",
@@ -31,8 +38,8 @@
       "title": "《人工智能产业发展研究报告（2025年）》",
       "published_at": "2026-02-09",
       "official_url": "https://ictp.caict.ac.cn/CN/news/folder.do?folderId=39",
-      "summary": "研究基础模型、智能体、算力、智能原生应用、安全治理与人工智能产业发展。",
-      "geo_relevance": "帮助品牌团队理解生成式 AI 从模型能力走向产业应用的宏观背景，避免把 GEO 仅理解成搜索技巧。"
+      "summary": "从产业视角观察基础模型、智能体、算力、应用与治理等人工智能发展议题。",
+      "geo_relevance": "帮助品牌团队理解生成式 AI 从模型能力向产业应用迁移的背景，避免把 GEO 简化为单一搜索技巧。"
     },
     {
       "id": "caict-intelligence-native-2026",
@@ -41,8 +48,8 @@
       "title": "《智能原生研究报告（2026年）》",
       "published_at": "2026-05-06",
       "official_url": "https://ictp.caict.ac.cn/CN/news/folder.do?folderId=39",
-      "summary": "讨论以 AI 为系统设计底层逻辑的智能原生技术、终端、软件、智能体与行业应用。",
-      "geo_relevance": "用于理解未来用户获取信息与完成任务可能从网页访问进一步转向智能体和 AI 原生交互。"
+      "summary": "关注智能原生技术、软件、终端、智能体与行业应用的发展。",
+      "geo_relevance": "用于理解未来用户获取信息与完成任务可能从网页访问进一步转向 AI 原生交互和智能体。"
     },
     {
       "id": "caict-ai-consumption-2026",
@@ -51,18 +58,18 @@
       "title": "《“人工智能+消费”发展研究报告（2026年）》",
       "published_at": "2026-07-20",
       "official_url": "https://ictp.caict.ac.cn/CN/news/folder.do?folderId=39",
-      "summary": "研究 AI 与消费场景、产品、服务及用户决策方式的融合变化。",
-      "geo_relevance": "与品牌 GEO 最直接相关的宏观资料之一，可辅助判断 AI 如何进入搜索、推荐、客服和消费决策链路。"
+      "summary": "研究人工智能与消费产品、服务和用户决策场景的融合。",
+      "geo_relevance": "与品牌 GEO 的商业背景直接相关，可辅助判断 AI 如何进入搜索、推荐、客服和消费决策链路。"
     },
     {
       "id": "google-ai-optimization-guide",
       "type": "平台官方资料",
       "publisher": "Google Search Central",
       "title": "Optimizing your website for generative AI features on Google Search",
-      "published_at": "2026-05-15",
+      "updated_at": "2026-07-10",
       "official_url": "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide",
       "summary": "Google 面向网站所有者发布的生成式 AI 搜索官方优化指南。",
-      "geo_relevance": "明确说明基础 SEO、独特高价值内容、可抓取性与用户价值仍是生成式搜索可见度的重要基础，同时反对缺乏依据的 GEO hacks。"
+      "geo_relevance": "说明基础 SEO、独特高价值内容、可抓取性与用户价值仍是生成式搜索可见度的重要基础，并提醒不要依赖缺乏依据的特殊 GEO 技巧。"
     },
     {
       "id": "google-genai-performance-2026",
@@ -71,18 +78,17 @@
       "title": "Search Generative AI performance reports in Search Console",
       "published_at": "2026-06-03",
       "official_url": "https://developers.google.com/search/blog/2026/06/gen-ai-performance-reports",
-      "summary": "Google 发布 Search Console 生成式 AI 可见度专项表现报告。",
-      "geo_relevance": "说明生成式搜索可见度正在进入更明确的可观测阶段，也支持 GeoGi 坚持“可测量、可复测、不过度推断算法”的方法方向。"
+      "summary": "Google 宣布在 Search Console 中测试生成式 AI 搜索可见度专项表现报告。",
+      "geo_relevance": "说明生成式搜索可见度正在进入更明确的可观测阶段，也支持“可测量、可复测、不过度推断算法”的方法方向。"
     },
     {
       "id": "openai-chatgpt-search",
       "type": "平台官方资料",
       "publisher": "OpenAI",
       "title": "ChatGPT Search 官方说明",
-      "published_at": "2026-08-15",
       "official_url": "https://help.openai.com/en/articles/9237897-chatgpt-search",
-      "summary": "介绍 ChatGPT Search 的联网搜索、来源展示、查询改写与网站可访问性说明。",
-      "geo_relevance": "官方明确说明搜索结果会提供相关来源，并且不存在保证顶部展示的方法；适合作为 GEO 透明边界的重要参考。"
+      "summary": "介绍 ChatGPT Search 的联网搜索、查询改写、引用与 Sources 展示方式。",
+      "geo_relevance": "可用于理解生成式搜索如何把外部网页来源带入回答，同时提醒品牌把来源展示与正文提及、候选和推荐分开观察。"
     },
     {
       "id": "deepseek-web-search",
@@ -92,27 +98,65 @@
       "published_at": "2024-12-10",
       "official_url": "https://api-docs.deepseek.com/zh-cn/news/news1210/",
       "summary": "DeepSeek 官方介绍网页端联网搜索能力。",
-      "geo_relevance": "用于确认联网模式存在与公开信息检索能力，不据此推断 DeepSeek 未公开的排序或推荐算法。"
+      "geo_relevance": "用于确认联网搜索能力与公开信息检索边界，不据此推断未公开的排序或推荐算法。"
     },
     {
       "id": "qwen-web-search",
       "type": "平台官方资料",
       "publisher": "阿里云百炼 / 千问",
       "title": "大模型联网搜索官方文档",
-      "published_at": "2026-08-19",
       "official_url": "https://help.aliyun.com/zh/model-studio/web-search",
-      "summary": "阿里云官方说明千问模型相关联网搜索能力、搜索来源与配置方式。",
-      "geo_relevance": "帮助区分模型能力、联网搜索配置与最终消费产品回答，避免把不同模式的结果混为同一排名。"
+      "summary": "阿里云官方说明千问模型相关联网搜索能力、来源与配置方式。",
+      "geo_relevance": "帮助区分模型能力、联网搜索配置与最终消费产品回答，避免把不同模式的结果混成一个所谓固定排名。"
     },
     {
       "id": "kimi-search-guide",
       "type": "平台官方资料",
       "publisher": "Kimi",
       "title": "Kimi 搜索功能使用指南",
-      "published_at": "2026-08-19",
       "official_url": "https://www.kimi.com/zh-cn/help/features/search",
-      "summary": "Kimi 官方帮助中心对联网搜索与参考来源进行说明。",
-      "geo_relevance": "适合用于研究品牌正文提及与来源引用之间的差异，并建立可核验的来源观察口径。"
+      "summary": "Kimi 官方帮助中心介绍联网搜索与参考来源。",
+      "geo_relevance": "适合研究正文提及与来源引用之间的差异，并建立可核验的来源观察口径。"
+    },
+    {
+      "id": "geo-foundational-2023",
+      "type": "学术研究",
+      "publisher": "arXiv · Aggarwal 等",
+      "title": "GEO: Generative Engine Optimization",
+      "published_at": "2023-11-16",
+      "official_url": "https://arxiv.org/abs/2311.09735",
+      "summary": "提出 Generative Engine Optimization 概念、可见度指标与 GEO-bench 实验框架的早期代表性研究。",
+      "geo_relevance": "适合作为 GEO 术语与研究问题的起点；论文实验中的提升幅度只适用于其研究设置，不应直接外推成商业平台的稳定效果承诺。"
+    },
+    {
+      "id": "geo-repeat-measurement-2026",
+      "type": "学术研究",
+      "publisher": "arXiv · Schulte 等",
+      "title": "Don't Measure Once: Measuring Visibility in AI Search (GEO)",
+      "published_at": "2026-04-08",
+      "official_url": "https://arxiv.org/abs/2604.07585",
+      "summary": "讨论 AI 搜索回答在重复运行、提示词和时间上的变化，以及一次性可见度测量的局限。",
+      "geo_relevance": "直接支持 GeoGi 把重复测量、问题版本与时间窗口纳入 GEO 复测，而不是把一张截图当作长期排名。"
+    },
+    {
+      "id": "geo-citation-absorption-2026",
+      "type": "学术研究",
+      "publisher": "arXiv · Zhang 等",
+      "title": "From Citation Selection to Citation Absorption: A Measurement Framework for Generative Engine Optimization Across AI Search Platforms",
+      "published_at": "2026-04-28",
+      "official_url": "https://arxiv.org/abs/2604.25707",
+      "summary": "提出 citation selection 与 citation absorption 的两阶段测量框架，并跨多个 AI 搜索平台分析引用与答案吸收差异。",
+      "geo_relevance": "提示品牌不要只统计引用数量，还应观察来源是否真正支持和影响最终回答；该结论仍应视为具体研究证据而非所有平台的固定规律。"
+    },
+    {
+      "id": "geo-critical-survey-2026",
+      "type": "学术研究",
+      "publisher": "arXiv · Olivier Martinez",
+      "title": "Optimizing Visibility in Generative Engines: A Critical Survey of Generative Engine Optimization (2023-2026)",
+      "published_at": "2026-07-15",
+      "official_url": "https://arxiv.org/abs/2607.14035",
+      "summary": "综述 2023—2026 年 GEO 研究，并强调生成式可见度的随机性、部分可观察性与证据异质性。",
+      "geo_relevance": "作为反过度承诺的重要证据：现有研究不足以证明某个 GEO 技巧可以稳定、长期、跨平台地因果提升自然发现或商业结果。"
     }
   ]
 }
