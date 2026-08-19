@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "updated": "2026-08-18",
+  "platforms": ["豆包", "DeepSeek", "腾讯元宝", "通义千问", "Kimi"],
+  "dimensions": [
+    {"id":"brand_recognition","name":"品牌认知","goal":"检查 AI 是否知道品牌是谁、做什么以及核心产品或服务。","templates":["{brand} 是什么？","{brand} 主要提供什么产品或服务？","{brand} 适合哪些客户或场景？"]},
+    {"id":"category_discovery","name":"品类发现","goal":"不主动输入品牌名时观察品牌能否进入合理候选。","templates":["中国有哪些 {category} 品牌值得了解？","如果要解决 {need}，有哪些 {category} 可以比较？","{city} 有哪些 {category} 服务商？"]},
+    {"id":"scenario_need","name":"场景需求","goal":"观察预算、人群、地区、用途和限制条件下的相关性。","templates":["预算 {budget}，想解决 {need}，应该怎么选？","适合 {audience} 的 {category} 有哪些？","在 {city} 做 {scenario}，需要比较哪些服务商？"]},
+    {"id":"comparison","name":"竞品比较","goal":"理解品牌与竞品在相同问题中的解释差异。","templates":["{brand} 和 {competitor} 有什么区别？","{brand}、{competitor} 分别适合什么场景？","比较 {brand} 与 {competitor} 的公开产品与服务信息。"]},
+    {"id":"decision","name":"选择决策","goal":"观察 AI 如何形成候选、条件化建议与选择理由。","templates":["如果更看重 {criterion}，{category} 应该怎么选？","在 {scenario} 下，选择 {category} 最需要确认哪些信息？","帮我列一个选择 {category} 的核验清单。"]},
+    {"id":"risk_verification","name":"风险核验","goal":"检查价格、地区、资质、服务状态与限制条件等高风险事实。","templates":["{brand} 当前公开的 {fact} 是什么？请给来源。","{brand} 的 {product} 是否仍在提供？","关于 {brand} 的 {fact}，有哪些公开来源可以交叉核验？"]}
+  ],
+  "execution_rules": [
+    "品牌词题与非品牌词题必须同时存在",
+    "比较题必须让品牌与竞品处于同一问题和同一约束条件",
+    "时效性问题必须记录观察日期",
+    "单次回答只能作为 Observation，不作为长期排名结论",
+    "医疗、法律、金融等高风险问题只观察公开信息，不把 AI 输出当作专业建议"
+  ]
+}

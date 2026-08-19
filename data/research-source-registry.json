@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "updated": "2026-08-18",
+  "sources": [
+    {"id":"google-ai-optimization-2026","type":"platform_official","title":"Google's Guide to Optimizing for Generative AI Features on Google Search","publisher":"Google Search Central","url":"https://developers.google.com/search/docs/fundamentals/ai-optimization-guide","supports":["SEO best practices remain relevant","unique and non-commodity content","crawlability and technical structure","no guaranteed indexing or serving","avoid unsupported GEO hacks"]},
+    {"id":"google-genai-content","type":"platform_official","title":"Google Search's guidance on using generative AI content on your website","publisher":"Google Search Central","url":"https://developers.google.com/search/docs/fundamentals/using-gen-ai-content","supports":["AI-assisted content must still add user value","scaled low-value content can violate spam policy"]},
+    {"id":"openai-chatgpt-search","type":"platform_official","title":"Introducing ChatGPT search","publisher":"OpenAI","url":"https://openai.com/index/introducing-chatgpt-search/","supports":["search answers can include links to relevant web sources","search can provide timely web-grounded answers"]},
+    {"id":"cnnic-genai-2025","type":"national_research","title":"生成式人工智能应用发展报告（2025）","publisher":"中国互联网络信息中心","url":"https://www.cnnic.net.cn/n4/2025/1021/c88-11391.html","supports":["截至2025年6月我国生成式人工智能用户规模5.15亿","普及率36.5%","超过九成用户首先选择国产大模型"]},
+    {"id":"doubao-ai-search","type":"platform_official","title":"豆包桌面 AI 助手与 AI 搜索","publisher":"豆包","url":"https://www.doubao.com/download/desktop","supports":["豆包公开产品页面提供 AI 搜索入口","网页浏览与网页总结是公开产品能力"]},
+    {"id":"deepseek-search","type":"platform_official","title":"联网搜索上线官网","publisher":"DeepSeek","url":"https://api-docs.deepseek.com/zh-cn/news/news1210/","supports":["DeepSeek 网页端提供联网搜索","联网模式会检索互联网公开信息"]},
+    {"id":"deepseek-terms","type":"platform_official","title":"DeepSeek 用户协议","publisher":"DeepSeek","url":"https://cdn.deepseek.com/policies/zh-CN/deepseek-terms-of-use.html","supports":["联网搜索基于公开互联网信息生成内容","输出可能存在错误或遗漏","高风险专业问题不构成专业建议"]},
+    {"id":"yuanbao-official","type":"platform_official","title":"腾讯元宝 - 轻松工作 多点生活","publisher":"腾讯元宝","url":"https://yuanbao.tencent.com/ailab/zh/about","supports":["腾讯元宝定位为 AI 智能助手","官方页面提示 AI 生成内容仅供参考"]},
+    {"id":"qwen-web-search","type":"platform_official","title":"大模型如何联网搜索","publisher":"阿里云百炼","url":"https://help.aliyun.com/zh/model-studio/web-search","supports":["千问模型支持联网搜索","不同模型和策略的搜索行为存在配置差异","部分模式支持返回搜索来源"]},
+    {"id":"kimi-search","type":"platform_official","title":"Kimi 搜索功能使用指南","publisher":"Kimi 帮助中心","url":"https://www.kimi.com/zh-cn/help/features/search","supports":["Kimi 提供联网搜索","搜索回答可附参考来源","部分复杂问题可自主决定搜索与工具调用"]},
+    {"id":"geo-foundational-2023","type":"primary_research","title":"GEO: Generative Engine Optimization","publisher":"arXiv","url":"https://arxiv.org/abs/2311.09735","supports":["GEO 作为生成式引擎可见度研究方向的早期定义与实验框架"]},
+    {"id":"geo-critical-survey-2026","type":"primary_research","title":"Optimizing Visibility in Generative Engines: A Critical Survey of Generative Engine Optimization (2023-2026)","publisher":"arXiv","url":"https://arxiv.org/abs/2607.14035","supports":["GEO 指标与证据仍高度异质","生成式可见度具有随机性与部分可观察性","未有被综述技术证明稳定长期跨平台因果提升"]},
+    {"id":"geo-repeat-measurement-2026","type":"primary_research","title":"Don't Measure Once: Measuring Visibility in AI Search (GEO)","publisher":"arXiv","url":"https://arxiv.org/abs/2604.07585","supports":["AI 搜索回答会跨运行、提示词和时间变化","一次性测量不足以代表长期可见度","应使用重复测量"]},
+    {"id":"nhc-medical-aesthetics","type":"regulator_official","title":"医疗美容服务管理办法","publisher":"国家卫生健康委员会","url":"https://www.nhc.gov.cn/wjw/c100221/202201/d7e8fa33a26b425da98d69fb04191699.shtml","supports":["医疗美容属于医疗活动并受医疗机构与人员执业规范约束"]},
+    {"id":"samr-medical-advertising","type":"regulator_official","title":"医疗广告管理办法相关公开规则","publisher":"国家市场监督管理总局","url":"https://www.samr.gov.cn/zw/zfxxgk/fdzdgknr/ggjgs/art/2023/art_6584dc1c94c2408db7c73f0b5e3d225a.html","supports":["医疗广告需遵守审查与内容限制","不得使用保证性或不当效果表达"]}
+  ]
+}
