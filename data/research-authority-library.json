@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "updated": "2026-08-19",
+  "positioning": "GeoGi 原创研究与外部权威研究明确分层。外部资料保持原机构署名并直接链接官方发布平台，GeoGi 仅提供与品牌 GEO 相关的阅读提示，不把外部结论包装成 GeoGi 自有研究。",
+  "types": ["权威机构报告", "平台官方资料", "学术研究"],
+  "items": [
+    {
+      "id": "cnnic-internet-57",
+      "type": "权威机构报告",
+      "publisher": "中国互联网络信息中心（CNNIC）",
+      "title": "第57次《中国互联网络发展状况统计报告》",
+      "published_at": "2026-02-05",
+      "official_url": "https://www.cnnic.net.cn/n4/2026/0304/c88-11549.html",
+      "summary": "记录中国互联网用户、数字应用与生成式人工智能应用的最新发展情况。",
+      "geo_relevance": "用于理解中国 AI 用户规模、互联网使用环境与品牌数字触点变化，是判断 GEO 市场背景的重要基础资料。"
+    },
+    {
+      "id": "cnnic-genai-2025",
+      "type": "权威机构报告",
+      "publisher": "中国互联网络信息中心（CNNIC）",
+      "title": "《生成式人工智能应用发展报告（2025）》",
+      "published_at": "2025-10-23",
+      "official_url": "https://www.cnnic.net.cn/n4/2025/1021/c88-11391.html",
+      "summary": "聚焦中国生成式人工智能用户使用、产业应用与政策发展。",
+      "geo_relevance": "报告显示智能搜索已成为生成式 AI 的重要应用场景，可用于判断品牌为什么需要关注国产大模型中的信息可见度。"
+    },
+    {
+      "id": "caict-ai-industry-2025",
+      "type": "权威机构报告",
+      "publisher": "中国信息通信研究院（CAICT）",
+      "title": "《人工智能产业发展研究报告（2025年）》",
+      "published_at": "2026-02-09",
+      "official_url": "https://ictp.caict.ac.cn/CN/news/folder.do?folderId=39",
+      "summary": "研究基础模型、智能体、算力、智能原生应用、安全治理与人工智能产业发展。",
+      "geo_relevance": "帮助品牌团队理解生成式 AI 从模型能力走向产业应用的宏观背景，避免把 GEO 仅理解成搜索技巧。"
+    },
+    {
+      "id": "caict-intelligence-native-2026",
+      "type": "权威机构报告",
+      "publisher": "中国信息通信研究院（CAICT）",
+      "title": "《智能原生研究报告（2026年）》",
+      "published_at": "2026-05-06",
+      "official_url": "https://ictp.caict.ac.cn/CN/news/folder.do?folderId=39",
+      "summary": "讨论以 AI 为系统设计底层逻辑的智能原生技术、终端、软件、智能体与行业应用。",
+      "geo_relevance": "用于理解未来用户获取信息与完成任务可能从网页访问进一步转向智能体和 AI 原生交互。"
+    },
+    {
+      "id": "caict-ai-consumption-2026",
+      "type": "权威机构报告",
+      "publisher": "中国信息通信研究院（CAICT）",
+      "title": "《“人工智能+消费”发展研究报告（2026年）》",
+      "published_at": "2026-07-20",
+      "official_url": "https://ictp.caict.ac.cn/CN/news/folder.do?folderId=39",
+      "summary": "研究 AI 与消费场景、产品、服务及用户决策方式的融合变化。",
+      "geo_relevance": "与品牌 GEO 最直接相关的宏观资料之一，可辅助判断 AI 如何进入搜索、推荐、客服和消费决策链路。"
+    },
+    {
+      "id": "google-ai-optimization-guide",
+      "type": "平台官方资料",
+      "publisher": "Google Search Central",
+      "title": "Optimizing your website for generative AI features on Google Search",
+      "published_at": "2026-05-15",
+      "official_url": "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide",
+      "summary": "Google 面向网站所有者发布的生成式 AI 搜索官方优化指南。",
+      "geo_relevance": "明确说明基础 SEO、独特高价值内容、可抓取性与用户价值仍是生成式搜索可见度的重要基础，同时反对缺乏依据的 GEO hacks。"
+    },
+    {
+      "id": "google-genai-performance-2026",
+      "type": "平台官方资料",
+      "publisher": "Google Search Central",
+      "title": "Search Generative AI performance reports in Search Console",
+      "published_at": "2026-06-03",
+      "official_url": "https://developers.google.com/search/blog/2026/06/gen-ai-performance-reports",
+      "summary": "Google 发布 Search Console 生成式 AI 可见度专项表现报告。",
+      "geo_relevance": "说明生成式搜索可见度正在进入更明确的可观测阶段，也支持 GeoGi 坚持“可测量、可复测、不过度推断算法”的方法方向。"
+    },
+    {
+      "id": "openai-chatgpt-search",
+      "type": "平台官方资料",
+      "publisher": "OpenAI",
+      "title": "ChatGPT Search 官方说明",
+      "published_at": "2026-08-15",
+      "official_url": "https://help.openai.com/en/articles/9237897-chatgpt-search",
+      "summary": "介绍 ChatGPT Search 的联网搜索、来源展示、查询改写与网站可访问性说明。",
+      "geo_relevance": "官方明确说明搜索结果会提供相关来源，并且不存在保证顶部展示的方法；适合作为 GEO 透明边界的重要参考。"
+    },
+    {
+      "id": "deepseek-web-search",
+      "type": "平台官方资料",
+      "publisher": "DeepSeek",
+      "title": "DeepSeek 联网搜索官方说明",
+      "published_at": "2024-12-10",
+      "official_url": "https://api-docs.deepseek.com/zh-cn/news/news1210/",
+      "summary": "DeepSeek 官方介绍网页端联网搜索能力。",
+      "geo_relevance": "用于确认联网模式存在与公开信息检索能力，不据此推断 DeepSeek 未公开的排序或推荐算法。"
+    },
+    {
+      "id": "qwen-web-search",
+      "type": "平台官方资料",
+      "publisher": "阿里云百炼 / 千问",
+      "title": "大模型联网搜索官方文档",
+      "published_at": "2026-08-19",
+      "official_url": "https://help.aliyun.com/zh/model-studio/web-search",
+      "summary": "阿里云官方说明千问模型相关联网搜索能力、搜索来源与配置方式。",
+      "geo_relevance": "帮助区分模型能力、联网搜索配置与最终消费产品回答，避免把不同模式的结果混为同一排名。"
+    },
+    {
+      "id": "kimi-search-guide",
+      "type": "平台官方资料",
+      "publisher": "Kimi",
+      "title": "Kimi 搜索功能使用指南",
+      "published_at": "2026-08-19",
+      "official_url": "https://www.kimi.com/zh-cn/help/features/search",
+      "summary": "Kimi 官方帮助中心对联网搜索与参考来源进行说明。",
+      "geo_relevance": "适合用于研究品牌正文提及与来源引用之间的差异，并建立可核验的来源观察口径。"
+    }
+  ]
+}
