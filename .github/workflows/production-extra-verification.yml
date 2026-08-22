@@ -1,0 +1,23 @@
+name: Production Extra Verification
+
+on:
+  workflow_run:
+    workflows: ["Sync Gitee"]
+    types: [completed]
+
+jobs:
+  verify:
+    if: >-
+      ${{
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_branch == 'main'
+      }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify production markers
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error https://www.geogi.cn/deploy-version.json > /dev/null
+          content=$(curl --fail --silent --show-error https://www.geogi.cn/iBZMBKP6Yg.txt)
+          test "$content" = "b616d956cca8446c88279cd7a870ae3e"
+          echo "Production markers verified."
