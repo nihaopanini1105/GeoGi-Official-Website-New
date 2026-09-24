@@ -14,10 +14,22 @@ jobs:
       }}
     runs-on: ubuntu-latest
     steps:
-      - name: Verify production markers
+      - name: Verify attributed MiniProgram source on production
         run: |
           set -euo pipefail
-          curl --fail --silent --show-error https://www.geogi.cn/deploy-version.json > /dev/null
-          content=$(curl --fail --silent --show-error https://www.geogi.cn/iBZMBKP6Yg.txt)
-          test "$content" = "b616d956cca8446c88279cd7a870ae3e"
-          echo "Production markers verified."
+          homepage="$(mktemp)"
+          codefile="$(mktemp)"
+          curl --fail --silent --show-error --location https://www.geogi.cn/ -o "$homepage"
+          grep -Fq 'https://api.geogi.cn/api/source-codes/official-website.png' "$homepage"
+          curl --fail --silent --show-error --location             https://api.geogi.cn/api/source-codes/official-website.png -o "$codefile"
+          node - "$codefile" <<'NODE'
+          const fs=require('fs');
+          const p=process.argv[2];
+          const b=fs.readFileSync(p);
+          const sig=Buffer.from([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a]);
+          if (b.length < 1024) throw new Error('official website source code too small: '+b.length);
+          if (!b.subarray(0,8).equals(sig)) throw new Error('official website source code is not PNG');
+          console.log('official_website_source_code=PASS bytes='+b.length);
+          NODE
+          rm -f "$homepage" "$codefile"
+          echo "Production attributed MiniProgram source verified."
